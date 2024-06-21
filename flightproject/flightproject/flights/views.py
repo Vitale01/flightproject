@@ -5,8 +5,9 @@ from django.shortcuts import render
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from flightproject.flightproject.flights.models import Route
 from django.db.models import Count
+from .models import Route
+
 
 @api_view(['GET'])
 def frequent_flights(request):

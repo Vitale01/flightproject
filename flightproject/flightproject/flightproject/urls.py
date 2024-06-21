@@ -26,3 +26,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('flights.urls')),
 ]
+

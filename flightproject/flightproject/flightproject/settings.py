@@ -77,16 +77,12 @@ WSGI_APPLICATION = 'flightproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'Voli',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': 'localhost',  # ad esempio 'localhost' o l'URI del tuo cluster MongoDB
-            'port': 27017,    # ad esempio 27017
-            #'username': 'your_username',  # se hai un username, altrimenti rimuovi questa riga
-            #'password': 'your_password',  # se hai una password, altrimenti rimuovi questa riga
-            'authSource': 'admin',        # se hai configurato un authentication source, altrimenti rimuovi questa riga
-            'authMechanism': 'SCRAM-SHA-1'  # meccanismo di autenticazione, puoi adattarlo al tuo caso
-        },
+        'NAME': 'Voli',                  # Nome del database MongoDB
+        'HOST': 'localhost',              # Indirizzo del server MongoDB
+        'PORT': 27017,                    # Porta di default di MongoDB
+        #'USER': 'username',               # Utente per accedere al database (se necessario)
+        #'PASSWORD': 'password',           # Password per accedere al database (se necessario)
+        #'AUTH_SOURCE': 'admin',           # Database di autenticazione (solitamente 'admin')
     }
 }
 
@@ -127,9 +123,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+#STATICFILES_DIRS = [
+#    BASE_DIR / "static",
+#]
 
 
 # Default primary key field type
