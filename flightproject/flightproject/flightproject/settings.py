@@ -77,7 +77,16 @@ WSGI_APPLICATION = 'flightproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'flightsDB',
+        'NAME': 'Voli',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'localhost',  # ad esempio 'localhost' o l'URI del tuo cluster MongoDB
+            'port': 27017,    # ad esempio 27017
+            #'username': 'your_username',  # se hai un username, altrimenti rimuovi questa riga
+            #'password': 'your_password',  # se hai una password, altrimenti rimuovi questa riga
+            'authSource': 'admin',        # se hai configurato un authentication source, altrimenti rimuovi questa riga
+            'authMechanism': 'SCRAM-SHA-1'  # meccanismo di autenticazione, puoi adattarlo al tuo caso
+        },
     }
 }
 
