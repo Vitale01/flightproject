@@ -6,7 +6,6 @@ from .views.routeView import RouteView
 from django_request_mapping import UrlPattern
 
 urlpattern = UrlPattern()
-Registrazione delle view del backend
 urlpattern.register(AirlineView)
 urlpattern.register(AirplaneView)
 urlpattern.register(AirportsView)
