@@ -46,20 +46,14 @@ class Airplane(models.Model):
 
 class Airport(models.Model):
     _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    airport_id = models.IntegerField()
-    name = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
-    iata = models.CharField(max_length=255)
-    icao = models.CharField(max_length=255)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    altitude = models.FloatField()
-    timezone = models.CharField(max_length=255)
-    dst = models.CharField(max_length=255)
-    db_timezone = models.CharField(max_length=255)
-    type = models.CharField(max_length=255)
-    source = models.CharField(max_length=255)
+    airline_id = models.CharField(max_length=255)
+    airline = models.CharField(max_length=255)
+    sourceAirport = models.CharField(max_length=255)
+    sourceAirport_id = models.CharField(max_length=255)
+    destinationAirport = models.CharField(max_length=255)
+    destinationAirport_id = models.CharField(max_length=255)
+    stops = models.IntegerField()
+    equipment = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.name
+        return self.airline
