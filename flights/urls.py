@@ -1,6 +1,19 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from .views.airlineView import AirlineView
+from .views.airplaneView import AirplaneView
+from .views.airportsView import AirportsView
+from .views.routeView import RouteView
+from django_request_mapping import UrlPattern
+
+urlpattern = UrlPattern()
+Registrazione delle view del backend
+urlpattern.register(AirlineView)
+urlpattern.register(AirplaneView)
+urlpattern.register(AirportsView)
+urlpattern.register(RouteView)
 
 urlpatterns = [
-    path('frequent-flights/', views.frequent_flights, name='frequent_flights'),
+    # path('', views.olympics),
+
+    path('', include(urlpattern))
 ]
