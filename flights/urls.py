@@ -15,5 +15,4 @@ urlpatterns = [
     # path('', views.olympics),
 
     path('', include(urlpattern))
-    #mirko gay
 ]
