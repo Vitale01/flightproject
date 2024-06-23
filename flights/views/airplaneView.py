@@ -1,9 +1,7 @@
-
 from flights.repository.airplaneRepository import AirplaneRepository
 from django.http import JsonResponse
 from django.views import View
 from django_request_mapping import request_mapping
-
 
 @request_mapping("/airplanes")
 class AirplaneView(View):
@@ -21,10 +19,10 @@ class AirplaneView(View):
         data = []
         for airplane in airplanes:
             airplane_data = {
-                'id': str(airplane['_id']),
-                'name': airplane.get('Name', ''),
-                'iata_code': airplane.get('IATA code', ''),
-                'icao_code': airplane.get('ICAO code', '')
+                'id': str(airplane['_id']),  # Converti ObjectId in stringa per JSON
+                'Name': airplane.get('Name', ''),
+                'IATA code': airplane.get('IATA code', ''),
+                'ICAO code': airplane.get('ICAO code', '')
             }
             data.append(airplane_data)
 
@@ -33,55 +31,55 @@ class AirplaneView(View):
     @request_mapping("/getById/<uuid:airplane_id>", method="get")
     def get_airplane_by_id(self, request, airplane_id):
         airplane = self.airplane_repository.get_airplane_by_id(airplane_id)
-        data = {
-            'id': str(airplane['_id']),
-            'name': airplane.get('name', ''),
-            'iata_type': airplane.get('iata_type', ''),
-            'icao_type': airplane.get('icao_type', ''),
-            'iata_code': airplane.get('iata_code', ''),
-            'icao_code': airplane.get('icao_code', ''),
-            'manufacturer': airplane.get('manufacturer', ''),
-            'model': airplane.get('model', ''),
-            'wake_category': airplane.get('wake_category', '')
-        }
-        return JsonResponse(data)
+        if airplane:
+            airplane_data = {
+                'id': str(airplane['_id']),  # Converti ObjectId in stringa per JSON
+                'Name': airplane.get('Name', ''),
+                'IATA code': airplane.get('IATA code', ''),
+                'ICAO code': airplane.get('ICAO code', '')
+            }
+            return JsonResponse(airplane_data)
+        else:
+            return JsonResponse({'error': 'Airplane not found'}, status=404)
 
-    @request_mapping("/create/", method="post")
+    @request_mapping("/create", method="post")
     def create_airplane(self, request):
         data = request.POST
         airplane = self.airplane_repository.create_airplane(
-            data.get('name'),
-            data.get('iata_type'),
-            data.get('icao_type')
+            name=data.get('Name'),
+            iata_code=data.get('IATA code'),
+            icao_code=data.get('ICAO code')
         )
         return JsonResponse({
-            'id': str(airplane['_id']),
-            'name': airplane.get('name', ''),
-            'iata_type': airplane.get('iata_type', ''),
-            'icao_type': airplane.get('icao_type', ''),
-            'iata_code': airplane.get('iata_code', ''),
-            'icao_code': airplane.get('icao_code', ''),
+            'id': str(airplane['_id']),  # Converti ObjectId in stringa per JSON
+            'Name': airplane.get('Name', ''),
+            'IATA code': airplane.get('IATA code', ''),
+            'ICAO code': airplane.get('ICAO code', '')
         })
 
     @request_mapping("/update/<uuid:airplane_id>", method="post")
     def update_airplane(self, request, airplane_id):
         data = request.POST
         airplane = self.airplane_repository.update_airplane(
-            airplane_id,
-            name=data.get('name'),
-            iata_code=data.get('iata_code'),
-            icao_code=data.get('icao_code')
+            airplane_id=airplane_id,
+            name=data.get('Name'),
+            iata_code=data.get('IATA code'),
+            icao_code=data.get('ICAO code')
         )
-        return JsonResponse({
-            'id': str(airplane['_id']),
-            'name': airplane.get('name', ''),
-            'iata_type': airplane.get('iata_type', ''),
-            'icao_type': airplane.get('icao_type', ''),
-            'iata_code': airplane.get('iata_code', ''),
-            'icao_code': airplane.get('icao_code', ''),
-        })
+        if airplane:
+            return JsonResponse({
+                'id': str(airplane['_id']),  # Converti ObjectId in stringa per JSON
+                'Name': airplane.get('Name', ''),
+                'IATA code': airplane.get('IATA code', ''),
+                'ICAO code': airplane.get('ICAO code', '')
+            })
+        else:
+            return JsonResponse({'error': 'Airplane not found'}, status=404)
 
     @request_mapping("/delete/<uuid:airplane_id>", method="post")
     def delete_airplane(self, request, airplane_id):
-        self.airplane_repository.delete_airplane(airplane_id)
-        return JsonResponse({"message": "Aereo eliminato"})
+        result = self.airplane_repository.delete_airplane(airplane_id)
+        if result:
+            return JsonResponse({'message': 'Airplane deleted successfully'})
+        else:
+            return JsonResponse({'error': 'Airplane not found'}, status=404)

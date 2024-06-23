@@ -9,8 +9,8 @@ class AirlineView(View):
     def __init__(self):
         super().__init__()
         self.airline_repository = AirlineRepository(
-            db_url='mongodb://localhost:27017/',  # Inserisci l'URL del tuo database MongoDB
-            db_name='Voli'  # Inserisci il nome del tuo database MongoDB
+            db_url='mongodb://localhost:27017/',  # URL del tuo database MongoDB
+            db_name='Voli'  # Nome del tuo database MongoDB
         )
 
     @request_mapping("/getAll", method="get")
@@ -20,14 +20,14 @@ class AirlineView(View):
         for airline in airlines:
             airline_data = {
                 'id': str(airline['_id']),  # Converti ObjectId in stringa per JSON
-                'airline_id': airline.get('Airline ID', ''),
-                'name': airline.get('Name', ''),
-                'alias': airline.get('Alias', ''),
-                'iata': airline.get('IATA', ''),
-                'callsign': airline.get('Callsign', ''),
-                'country': airline.get('Country', ''),
-                'active': airline.get('Active', ''),
-                'icao': airline.get('ICAO', '')
+                'Airline ID': airline.get('Airline ID', ''),
+                'Name': airline.get('Name', ''),
+                'Alias': airline.get('Alias', ''),
+                'IATA': airline.get('IATA', ''),
+                'Callsign': airline.get('Callsign', ''),
+                'Country': airline.get('Country', ''),
+                'Active': airline.get('Active', ''),
+                'ICAO': airline.get('ICAO', '')
             }
             data.append(airline_data)
         return JsonResponse(data, safe=False)
@@ -38,14 +38,14 @@ class AirlineView(View):
         if airline:
             airline_data = {
                 'id': str(airline['_id']),  # Converti ObjectId in stringa per JSON
-                'airline_id': airline.get('airline_id', ''),
-                'name': airline.get('name', ''),
-                'alias': airline.get('alias', ''),
-                'iata': airline.get('iata', ''),
-                'callsign': airline.get('callsign', ''),
-                'country': airline.get('country', ''),
-                'active': airline.get('active', ''),
-                'icao': airline.get('icao', ''),
+                'Airline ID': airline.get('Airline ID', ''),
+                'Name': airline.get('Name', ''),
+                'Alias': airline.get('Alias', ''),
+                'IATA': airline.get('IATA', ''),
+                'Callsign': airline.get('Callsign', ''),
+                'Country': airline.get('Country', ''),
+                'Active': airline.get('Active', ''),
+                'ICAO': airline.get('ICAO', ''),
             }
             return JsonResponse(airline_data)
         else:
@@ -55,25 +55,25 @@ class AirlineView(View):
     def create_airline(self, request):
         data = request.POST
         airline = self.airline_repository.create_airline(
-            airline_id=int(data.get('airline_id')),
-            name=data.get('name'),
-            alias=data.get('alias'),
-            iata=data.get('iata'),
-            callsign=data.get('callsign'),
-            country=data.get('country'),
-            active=data.get('active'),
-            icao=data.get('icao')
+            airline_id=data.get('Airline ID'),
+            name=data.get('Name'),
+            alias=data.get('Alias'),
+            iata=data.get('IATA'),
+            callsign=data.get('Callsign'),
+            country=data.get('Country'),
+            active=data.get('Active'),
+            icao=data.get('ICAO')
         )
         return JsonResponse({
-            'id': str(airline['_id']),
-            'airline_id': airline.get('airline_id', ''),
-            'name': airline.get('name', ''),
-            'alias': airline.get('alias', ''),
-            'iata': airline.get('iata', ''),
-            'callsign': airline.get('callsign', ''),
-            'country': airline.get('country', ''),
-            'active': airline.get('active', ''),
-            'icao': airline.get('icao', ''),
+            'id': str(airline['_id']),  # Converti ObjectId in stringa per JSON
+            'Airline ID': airline.get('Airline ID', ''),
+            'Name': airline.get('Name', ''),
+            'Alias': airline.get('Alias', ''),
+            'IATA': airline.get('IATA', ''),
+            'Callsign': airline.get('Callsign', ''),
+            'Country': airline.get('Country', ''),
+            'Active': airline.get('Active', ''),
+            'ICAO': airline.get('ICAO', ''),
         })
 
     @request_mapping("/update/<uuid:airline_id>", method="post")
@@ -81,25 +81,25 @@ class AirlineView(View):
         data = request.POST
         airline = self.airline_repository.update_airline(
             airline_id=airline_id,
-            name=data.get('name'),
-            alias=data.get('alias'),
-            iata=data.get('iata'),
-            callsign=data.get('callsign'),
-            country=data.get('country'),
-            active=data.get('active'),
-            icao=data.get('icao')
+            name=data.get('Name'),
+            alias=data.get('Alias'),
+            iata=data.get('IATA'),
+            callsign=data.get('Callsign'),
+            country=data.get('Country'),
+            active=data.get('Active'),
+            icao=data.get('ICAO')
         )
         if airline:
             return JsonResponse({
-                'id': str(airline['_id']),
-                'airline_id': airline.get('airline_id', ''),
-                'name': airline.get('name', ''),
-                'alias': airline.get('alias', ''),
-                'iata': airline.get('iata', ''),
-                'callsign': airline.get('callsign', ''),
-                'country': airline.get('country', ''),
-                'active': airline.get('active', ''),
-                'icao': airline.get('icao', ''),
+                'id': str(airline['_id']),  # Converti ObjectId in stringa per JSON
+                'Airline ID': airline.get('Airline ID', ''),
+                'Name': airline.get('Name', ''),
+                'Alias': airline.get('Alias', ''),
+                'IATA': airline.get('IATA', ''),
+                'Callsign': airline.get('Callsign', ''),
+                'Country': airline.get('Country', ''),
+                'Active': airline.get('Active', ''),
+                'ICAO': airline.get('ICAO', ''),
             })
         else:
             return JsonResponse({'error': 'Airline not found'}, status=404)

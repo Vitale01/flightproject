@@ -16,9 +16,9 @@ class AirplaneRepository:
 
     def create_airplane(self, name, iata_code, icao_code):
         airplane = {
-            'name': name,
-            'iata_code': iata_code,
-            'icao_code': icao_code,
+            'Name': name,
+            'IATA code': iata_code,
+            'ICAO code': icao_code,
         }
         result = self.airplanes_collection.insert_one(airplane)
         airplane['_id'] = result.inserted_id
@@ -27,11 +27,11 @@ class AirplaneRepository:
     def update_airplane(self, airplane_id, name=None, iata_code=None, icao_code=None):
         update_fields = {}
         if name:
-            update_fields['name'] = name
+            update_fields['Name'] = name
         if iata_code:
-            update_fields['iURLata_code'] = iata_code
+            update_fields['IATA code'] = iata_code
         if icao_code:
-            update_fields['icao_code'] = icao_code
+            update_fields['ICAO code'] = icao_code
 
         result = self.airplanes_collection.find_one_and_update(
             {'_id': ObjectId(airplane_id)},

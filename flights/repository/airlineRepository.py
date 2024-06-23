@@ -16,14 +16,14 @@ class AirlineRepository:
 
     def create_airline(self, airline_id, name, alias, iata, callsign, country, active, icao):
         airline = {
-            'airline_id': airline_id,
-            'name': name,
-            'alias': alias,
-            'iata': iata,
-            'callsign': callsign,
-            'country': country,
-            'active': active,
-            'icao': icao,
+            'Airline ID': airline_id,
+            'Name': name,
+            'Alias': alias,
+            'IATA': iata,
+            'Callsign': callsign,
+            'Country': country,
+            'Active': active,
+            'ICAO': icao,
         }
         result = self.airlines_collection.insert_one(airline)
         airline['_id'] = result.inserted_id
@@ -33,19 +33,19 @@ class AirlineRepository:
                        icao=None):
         update_fields = {}
         if name:
-            update_fields['name'] = name
+            update_fields['Name'] = name
         if alias:
-            update_fields['alias'] = alias
+            update_fields['Alias'] = alias
         if iata:
-            update_fields['iata'] = iata
+            update_fields['IATA'] = iata
         if callsign:
-            update_fields['callsign'] = callsign
+            update_fields['Callsign'] = callsign
         if country:
-            update_fields['country'] = country
+            update_fields['Country'] = country
         if active:
-            update_fields['active'] = active
+            update_fields['Active'] = active
         if icao:
-            update_fields['icao'] = icao
+            update_fields['ICAO'] = icao
 
         result = self.airlines_collection.find_one_and_update(
             {'_id': ObjectId(airline_id)},

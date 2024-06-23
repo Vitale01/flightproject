@@ -17,14 +17,14 @@ class RouteRepository:
     def create_route(self, airline, airline_id, source_airport, source_airport_id, destination_airport,
                      destination_airport_id, stops, equipment):
         route = {
-            'airline': airline,
-            'airline_id': airline_id,
-            'source_airport': source_airport,
-            'source_airport_id': source_airport_id,
-            'destination_airport': destination_airport,
-            'destination_airport_id': destination_airport_id,
-            'stops': stops,
-            'equipment': equipment,
+            'Airline': airline,
+            'Airline ID': airline_id,
+            'Source airport': source_airport,
+            'Source airport ID': source_airport_id,
+            'Destination airport': destination_airport,
+            'Destination airport ID': destination_airport_id,
+            'Stops': stops,
+            'Equipment': equipment,
         }
         result = self.routes_collection.insert_one(route)
         route['_id'] = result.inserted_id
@@ -34,21 +34,21 @@ class RouteRepository:
                      destination_airport=None, destination_airport_id=None, stops=None, equipment=None):
         update_fields = {}
         if airline:
-            update_fields['airline'] = airline
+            update_fields['Airline'] = airline
         if airline_id:
-            update_fields['airline_id'] = airline_id
+            update_fields['Airline ID'] = airline_id
         if source_airport:
-            update_fields['source_airport'] = source_airport
+            update_fields['Source airport'] = source_airport
         if source_airport_id:
-            update_fields['source_airport_id'] = source_airport_id
+            update_fields['Source airport ID'] = source_airport_id
         if destination_airport:
-            update_fields['destination_airport'] = destination_airport
+            update_fields['Destination airport'] = destination_airport
         if destination_airport_id:
-            update_fields['destination_airport_id'] = destination_airport_id
+            update_fields['Destination airport ID'] = destination_airport_id
         if stops:
-            update_fields['stops'] = stops
+            update_fields['Stops'] = stops
         if equipment:
-            update_fields['equipment'] = equipment
+            update_fields['Equipment'] = equipment
 
         result = self.routes_collection.find_one_and_update(
             {'_id': ObjectId(route_id)},
