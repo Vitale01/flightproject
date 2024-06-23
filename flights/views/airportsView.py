@@ -38,7 +38,7 @@ class AirportView(View):
             data.append(airport_data)
         return JsonResponse(data, safe=False)
 
-    @request_mapping("/getById/<uuid:airport_id>", method="get")
+    @request_mapping("/getById/<str:airport_id>", method="get")
     def get_airport_by_id(self, request, airport_id):
         airport = self.airport_repository.get_airport_by_id(airport_id)
         if airport:
@@ -100,7 +100,7 @@ class AirportView(View):
             'Source': airport.get('Source', '')
         })
 
-    @request_mapping("/update/<uuid:airport_id>", method="post")
+    @request_mapping("/update/<str:airport_id>", method="post")
     def update_airport(self, request, airport_id):
         data = request.POST
         airport = self.airport_repository.update_airport(
@@ -140,7 +140,7 @@ class AirportView(View):
         else:
             return JsonResponse({'error': 'Airport not found'}, status=404)
 
-    @request_mapping("/delete/<uuid:airport_id>", method="post")
+    @request_mapping("/delete/<str:airport_id>", method="post")
     def delete_airport(self, request, airport_id):
         result = self.airport_repository.delete_airport(airport_id)
         if result:

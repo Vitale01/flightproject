@@ -3,6 +3,7 @@ from django.views import View
 from flights.repository.airlineRepository import AirlineRepository
 from django_request_mapping import request_mapping
 
+
 @request_mapping("/airlines")
 class AirlineView(View):
 
@@ -32,7 +33,7 @@ class AirlineView(View):
             data.append(airline_data)
         return JsonResponse(data, safe=False)
 
-    @request_mapping("/getById/<uuid:airline_id>", method="get")
+    @request_mapping("/getById/<str:airline_id>", method="get")
     def get_airline_by_id(self, request, airline_id):
         airline = self.airline_repository.get_airline_by_id(airline_id)
         if airline:
@@ -76,7 +77,7 @@ class AirlineView(View):
             'ICAO': airline.get('ICAO', ''),
         })
 
-    @request_mapping("/update/<uuid:airline_id>", method="post")
+    @request_mapping("/update/<str:airline_id>", method="post")
     def update_airline(self, request, airline_id):
         data = request.POST
         airline = self.airline_repository.update_airline(
@@ -104,7 +105,7 @@ class AirlineView(View):
         else:
             return JsonResponse({'error': 'Airline not found'}, status=404)
 
-    @request_mapping("/delete/<uuid:airline_id>", method="post")
+    @request_mapping("/delete/<str:airline_id>", method="post")
     def delete_airline(self, request, airline_id):
         result = self.airline_repository.delete_airline(airline_id)
         if result:

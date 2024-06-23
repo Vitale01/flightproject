@@ -28,7 +28,7 @@ class AirplaneView(View):
 
         return JsonResponse(data, safe=False)
 
-    @request_mapping("/getById/<uuid:airplane_id>", method="get")
+    @request_mapping("/getById/<str:airplane_id>", method="get")
     def get_airplane_by_id(self, request, airplane_id):
         airplane = self.airplane_repository.get_airplane_by_id(airplane_id)
         if airplane:
@@ -57,7 +57,7 @@ class AirplaneView(View):
             'ICAO code': airplane.get('ICAO code', '')
         })
 
-    @request_mapping("/update/<uuid:airplane_id>", method="post")
+    @request_mapping("/update/<str:airplane_id>", method="post")
     def update_airplane(self, request, airplane_id):
         data = request.POST
         airplane = self.airplane_repository.update_airplane(
@@ -76,7 +76,7 @@ class AirplaneView(View):
         else:
             return JsonResponse({'error': 'Airplane not found'}, status=404)
 
-    @request_mapping("/delete/<uuid:airplane_id>", method="post")
+    @request_mapping("/delete/<str:airplane_id>", method="post")
     def delete_airplane(self, request, airplane_id):
         result = self.airplane_repository.delete_airplane(airplane_id)
         if result:

@@ -2,5 +2,5 @@ node_modules
 __pycache__/
 *.css
 *.css.map
-.idea/
+.idea
 flightproject.xml

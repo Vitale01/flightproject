@@ -33,7 +33,7 @@ class RouteView(View):
             data.append(route_data)
         return JsonResponse(data, safe=False)
 
-    @request_mapping("/getById/<uuid:route_id>", method="get")
+    @request_mapping("/getById/<str:route_id>", method="get")
     def get_route_by_id(self, request, route_id):
         route = self.route_repository.get_route_by_id(route_id)
         if route:
@@ -77,7 +77,7 @@ class RouteView(View):
                 'equipment': route.get('Equipment', '')
         })
 
-    @request_mapping("/update/<uuid:route_id>", method="post")
+    @request_mapping("/update/<str:route_id>", method="post")
     def update_route(self, request, route_id):
         data = request.POST
         route = self.route_repository.update_route(
@@ -106,7 +106,7 @@ class RouteView(View):
         else:
             return JsonResponse({'error': 'Route not found'}, status=404)
 
-    @request_mapping("/delete/<uuid:route_id>", method="post")
+    @request_mapping("/delete/<str:route_id>", method="post")
     def delete_route(self, request, route_id):
         result = self.route_repository.delete_route(route_id)
         if result:
