@@ -6,7 +6,7 @@ class RouteRepository:
     def __init__(self, db_url, db_name):
         self.client = MongoClient(db_url)
         self.db = self.client[db_name]
-        self.routes_collection = self.db['route']
+        self.routes_collection = self.db['routes']
 
     def get_all_routes(self):
         return list(self.routes_collection.find())

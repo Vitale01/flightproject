@@ -1,5 +1,5 @@
 
-from flightproject.flightproject.flights.repository.airplaneRepository import AirplaneRepository
+from flights.repository.airplaneRepository import AirplaneRepository
 from django.http import JsonResponse
 from django.views import View
 from django_request_mapping import request_mapping
@@ -12,7 +12,7 @@ class AirplaneView(View):
         super().__init__()
         self.airplane_repository: AirplaneRepository = AirplaneRepository(
             db_url='mongodb://localhost:27017/',  # URL del tuo database MongoDB
-            db_name='flights'  # Nome del tuo database MongoDB
+            db_name='Voli'  # Nome del tuo database MongoDB
         )
 
     @request_mapping("/getAll", method="get")
@@ -22,14 +22,9 @@ class AirplaneView(View):
         for airplane in airplanes:
             airplane_data = {
                 'id': str(airplane['_id']),
-                'name': airplane.get('name', ''),
-                'iata_type': airplane.get('iata_type', ''),
-                'icao_type': airplane.get('icao_type', ''),
-                'iata_code': airplane.get('iata_code', ''),
-                'icao_code': airplane.get('icao_code', ''),
-                'manufacturer': airplane.get('manufacturer', ''),
-                'model': airplane.get('model', ''),
-                'wake_category': airplane.get('wake_category', '')
+                'name': airplane.get('Name', ''),
+                'iata_code': airplane.get('IATA code', ''),
+                'icao_code': airplane.get('ICAO code', '')
             }
             data.append(airplane_data)
 

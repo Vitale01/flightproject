@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views import View
-from flightproject.flightproject.flights.repository.airlineRepository import AirlineRepository
+from flights.repository.airlineRepository import AirlineRepository
 from django_request_mapping import request_mapping
 
 @request_mapping("/airlines")
@@ -10,7 +10,7 @@ class AirlineView(View):
         super().__init__()
         self.airline_repository = AirlineRepository(
             db_url='mongodb://localhost:27017/',  # Inserisci l'URL del tuo database MongoDB
-            db_name='flights'  # Inserisci il nome del tuo database MongoDB
+            db_name='Voli'  # Inserisci il nome del tuo database MongoDB
         )
 
     @request_mapping("/getAll", method="get")
@@ -20,14 +20,14 @@ class AirlineView(View):
         for airline in airlines:
             airline_data = {
                 'id': str(airline['_id']),  # Converti ObjectId in stringa per JSON
-                'airline_id': airline.get('airline_id', ''),
-                'name': airline.get('name', ''),
-                'alias': airline.get('alias', ''),
-                'iata': airline.get('iata', ''),
-                'callsign': airline.get('callsign', ''),
-                'country': airline.get('country', ''),
-                'active': airline.get('active', ''),
-                'icao': airline.get('icao', ''),
+                'airline_id': airline.get('Airline ID', ''),
+                'name': airline.get('Name', ''),
+                'alias': airline.get('Alias', ''),
+                'iata': airline.get('IATA', ''),
+                'callsign': airline.get('Callsign', ''),
+                'country': airline.get('Country', ''),
+                'active': airline.get('Active', ''),
+                'icao': airline.get('ICAO', '')
             }
             data.append(airline_data)
         return JsonResponse(data, safe=False)

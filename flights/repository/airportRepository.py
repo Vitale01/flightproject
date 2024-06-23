@@ -6,7 +6,7 @@ class AirportRepository:
     def __init__(self, db_url, db_name):
         self.client = MongoClient(db_url)
         self.db = self.client[db_name]
-        self.airports_collection = self.db['airport']
+        self.airports_collection = self.db['airports']
 
     def get_all_airports(self):
         return list(self.airports_collection.find())
@@ -14,41 +14,60 @@ class AirportRepository:
     def get_airport_by_id(self, airport_id):
         return self.airports_collection.find_one({'_id': ObjectId(airport_id)})
 
-    def create_airport(self, airline_id, airline, source_airport, source_airport_id, destination_airport,
-                       destination_airport_id, stops, equipment):
+    def create_airport(self, airport_id, name, city, country, iata, icao, latitudine, longitudine, altitude,
+                       timezone, dst, tz_database_timezone, type, source):
         airport = {
-            'airline_id': airline_id,
-            'airline': airline,
-            'source_airport': source_airport,
-            'source_airport_id': source_airport_id,
-            'destination_airport': destination_airport,
-            'destination_airport_id': destination_airport_id,
-            'stops': stops,
-            'equipment': equipment,
+            'Airport ID': airport_id,
+            'Name': name,
+            'City': city,
+            'Country': country,
+            'IATA': iata,
+            'ICAO': icao,
+            'Latitudine': latitudine,
+            'Longitudine': longitudine,
+            'Altitude': altitude,
+            'Timezone': timezone,
+            'DST': dst,
+            'Tz database time zone': tz_database_timezone,
+            'Type': type,
+            'Source': source
         }
         result = self.airports_collection.insert_one(airport)
         airport['_id'] = result.inserted_id
         return airport
 
-    def update_airport(self, airport_id, airline_id=None, airline=None, source_airport=None, source_airport_id=None,
-                       destination_airport=None, destination_airport_id=None, stops=None, equipment=None):
+    def update_airport(self, airport_id, name=None, city=None, country=None, iata=None, icao=None,
+                       latitudine=None, longitudine=None, altitude=None, timezone=None, dst=None,
+                       tz_database_timezone=None, type=None, source=None):
         update_fields = {}
-        if airline_id:
-            update_fields['airline_id'] = airline_id
-        if airline:
-            update_fields['airline'] = airline
-        if source_airport:
-            update_fields['source_airport'] = source_airport
-        if source_airport_id:
-            update_fields['source_airport_id'] = source_airport_id
-        if destination_airport:
-            update_fields['destination_airport'] = destination_airport
-        if destination_airport_id:
-            update_fields['destination_airport_id'] = destination_airport_id
-        if stops:
-            update_fields['stops'] = stops
-        if equipment:
-            update_fields['equipment'] = equipment
+        if airport_id:
+            update_fields['Airport ID'] = airport_id
+        if name:
+            update_fields['Name'] = name
+        if city:
+            update_fields['City'] = city
+        if country:
+            update_fields['Country'] = country
+        if iata:
+            update_fields['IATA'] = iata
+        if icao:
+            update_fields['ICAO'] = icao
+        if latitudine:
+            update_fields['Latitudine'] = latitudine
+        if longitudine:
+            update_fields['Longitudine'] = longitudine
+        if altitude:
+            update_fields['Altitude'] = altitude
+        if timezone:
+            update_fields['Timezone'] = timezone
+        if dst:
+            update_fields['DST'] = dst
+        if tz_database_timezone:
+            update_fields['Tz database time zone'] = tz_database_timezone
+        if type:
+            update_fields['Type'] = type
+        if source:
+            update_fields['Source'] = source
 
         result = self.airports_collection.find_one_and_update(
             {'_id': ObjectId(airport_id)},

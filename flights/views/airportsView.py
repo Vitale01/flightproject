@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views import View
-from flightproject.flightproject.flights.repository.airportRepository import AirportRepository
+from flights.repository.airportRepository import AirportRepository
 from django_request_mapping import request_mapping
 
 
@@ -11,7 +11,7 @@ class AirportView(View):
         super().__init__()
         self.airport_repository = AirportRepository(
             db_url='mongodb://localhost:27017/',  # Inserisci l'URL del tuo database MongoDB
-            db_name='flights'  # Inserisci il nome del tuo database MongoDB
+            db_name='Voli'  # Inserisci il nome del tuo database MongoDB
         )
 
     @request_mapping("/getAll", method="get")
@@ -21,14 +21,14 @@ class AirportView(View):
         for airport in airports:
             airport_data = {
                 'id': str(airport['_id']),  # Converti ObjectId in stringa per JSON
-                'airline_id': airport.get('airline_id', ''),
-                'airline': airport.get('airline', ''),
-                'sourceAirport': airport.get('sourceAirport', ''),
-                'sourceAirport_id': airport.get('sourceAirport_id', ''),
-                'destinationAirport': airport.get('destinationAirport', ''),
+                'airline_id': airport.get('Airline ID', ''),
+                'airline': airport.get('Airline', ''),
+                'sourceAirport': airport.get('Source airport', ''),
+                'sourceAirport_id': airport.get('Source airport ID', ''),
+                'destinationAirport': airport.get('Destination airport', ''),
                 'destinationAirport_id': airport.get('destinationAirport_id', ''),
                 'stops': airport.get('stops', 0),
-                'equipment': airport.get('equipment', ''),
+                'equipment': airport.get('equipment', '')
             }
             data.append(airport_data)
         return JsonResponse(data, safe=False)

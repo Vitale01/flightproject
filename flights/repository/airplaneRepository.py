@@ -6,7 +6,7 @@ class AirplaneRepository:
     def __init__(self, db_url, db_name):
         self.client = MongoClient(db_url)
         self.db = self.client[db_name]
-        self.airplanes_collection = self.db['airplane']
+        self.airplanes_collection = self.db['airplanes']
 
     def get_all_airplanes(self):
         return list(self.airplanes_collection.find())

@@ -1,19 +1,16 @@
 from django.urls import path, include
+from django_request_mapping import UrlPattern
 from .views.airlineView import AirlineView
 from .views.airplaneView import AirplaneView
-from .views.airportsView import AirportsView
 from .views.routeView import RouteView
-from django_request_mapping import UrlPattern
+from .views.airportsView import AirportView
 
 urlpattern = UrlPattern()
-Registrazione delle view del backend
 urlpattern.register(AirlineView)
 urlpattern.register(AirplaneView)
-urlpattern.register(AirportsView)
+urlpattern.register(AirportView)
 urlpattern.register(RouteView)
 
 urlpatterns = [
-    # path('', views.olympics),
-
     path('', include(urlpattern))
 ]
