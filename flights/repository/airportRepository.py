@@ -79,3 +79,14 @@ class AirportRepository:
     def delete_airport(self, airport_id):
         result = self.airports_collection.delete_one({'_id': ObjectId(airport_id)})
         return result.deleted_count > 0
+
+    def get_cities_with_most_airports(self):
+        pipeline = [
+            {"$match": {"City": {"$ne": None}}},  # Filtro per escludere città con valore null
+            {"$group": {"_id": "$City", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 1000}
+        ]
+        return list(self.airports_collection.aggregate(pipeline))
+
+

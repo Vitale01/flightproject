@@ -1,9 +1,10 @@
 from django.urls import path, include
 from django_request_mapping import UrlPattern
-from .views.airlineView import AirlineView
-from .views.airplaneView import AirplaneView
-from .views.routeView import RouteView
-from .views.airportsView import AirportView
+from .Views.airlineView import AirlineView
+from .Views.airplaneView import AirplaneView
+from .Views.routeView import RouteView
+from .Views.airportsView import AirportView
+from . import views
 
 urlpattern = UrlPattern()
 urlpattern.register(AirlineView)
@@ -12,5 +13,6 @@ urlpattern.register(AirportView)
 urlpattern.register(RouteView)
 
 urlpatterns = [
+    path('', views.app),
     path('', include(urlpattern))
 ]

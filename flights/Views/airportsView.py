@@ -147,3 +147,14 @@ class AirportView(View):
             return JsonResponse({'message': 'Airport deleted successfully'})
         else:
             return JsonResponse({'error': 'Airport not found'}, status=404)
+
+    @request_mapping("/get_cities_with_most_airports/", method="get")
+    def get_cities(self, request):
+        cities_with_most_airports = self.airport_repository.get_cities_with_most_airports()
+        response = [
+            {
+                'city': city['_id'],
+                'count': city['count']
+            } for city in cities_with_most_airports
+        ]
+        return JsonResponse(response, safe=False)
