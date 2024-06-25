@@ -1,5 +1,6 @@
 from pymongo import MongoClient, ReturnDocument
 from bson.objectid import ObjectId
+from flights.models import Route
 
 
 class RouteRepository:
@@ -60,3 +61,17 @@ class RouteRepository:
     def delete_route(self, route_id):
         result = self.routes_collection.delete_one({'_id': ObjectId(route_id)})
         return result.deleted_count > 0
+
+    def get_route_statistics(self):
+        pipeline = [
+            {"$group": {"_id": "$Airline", "total_routes": {"$sum": 1}}}
+        ]
+        statistics = list(self.routes_collection.aggregate(pipeline))
+        result = []
+        for stat in statistics:
+            result.append({
+                'airline': stat['_id'],
+                'total_routes': stat['total_routes']
+            })
+
+        return result

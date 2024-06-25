@@ -66,15 +66,15 @@ class RouteView(View):
             equipment=data.get('Equipment')
         )
         return JsonResponse({
-                'id': str(route['_id']),  # Converti ObjectId in stringa per JSON
-                'airline': route.get('Airline', ''),
-                'airline_id': route.get('Airline ID', ''),
-                'source_airport': route.get('Source airport', ''),
-                'source_airport_id': route.get('Source airport ID', ''),
-                'destination_airport': route.get('Destination airport', ''),
-                'destination_airport_id': route.get('Destination airport ID', ''),
-                'stops': route.get('Stops', 0),
-                'equipment': route.get('Equipment', '')
+            'id': str(route['_id']),  # Converti ObjectId in stringa per JSON
+            'airline': route.get('Airline', ''),
+            'airline_id': route.get('Airline ID', ''),
+            'source_airport': route.get('Source airport', ''),
+            'source_airport_id': route.get('Source airport ID', ''),
+            'destination_airport': route.get('Destination airport', ''),
+            'destination_airport_id': route.get('Destination airport ID', ''),
+            'stops': route.get('Stops', 0),
+            'equipment': route.get('Equipment', '')
         })
 
     @request_mapping("/update/<str:route_id>", method="post")
@@ -113,3 +113,16 @@ class RouteView(View):
             return JsonResponse({'message': 'Route deleted successfully'})
         else:
             return JsonResponse({'error': 'Route not found'}, status=404)
+
+    @request_mapping("/statistics_routes", method="get")
+    def get_route_statistics(self, request):
+        # Calcola le statistiche sulle rotte
+        route_statistics = self.route_repository.get_route_statistics()
+
+        # Preparare la risposta JSON
+        response = [{
+            'airline': stat['airline'],
+            'total_routes': stat['total_routes']
+        } for stat in route_statistics]
+
+        return JsonResponse(response, safe=False)

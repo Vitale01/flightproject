@@ -89,4 +89,10 @@ class AirportRepository:
         ]
         return list(self.airports_collection.aggregate(pipeline))
 
+    def get_airports_by_country(self):
+        pipeline = [
+            {"$group": {"_id": "$Country", "total_airports": {"$sum": 1}}}
+        ]
+        return list(self.airports_collection.aggregate(pipeline))
+
 

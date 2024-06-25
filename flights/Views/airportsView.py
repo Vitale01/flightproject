@@ -158,3 +158,13 @@ class AirportView(View):
             } for city in cities_with_most_airports
         ]
         return JsonResponse(response, safe=False)
+
+    @request_mapping("/airports_by_country", method="get")
+    def get_airports_by_country(self, request):
+        airports_by_country = self.airport_repository.get_airports_by_country()
+        response = [{
+            'country': airport['_id'],
+            'total_airports': airport['total_airports']
+        } for airport in airports_by_country]
+
+        return JsonResponse(response, safe=False)

@@ -57,3 +57,5 @@ class AirlineRepository:
     def delete_airline(self, airline_id):
         result = self.airlines_collection.delete_one({'_id': ObjectId(airline_id)})
         return result.deleted_count > 0
+
+
