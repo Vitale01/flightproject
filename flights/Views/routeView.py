@@ -10,8 +10,8 @@ class RouteView(View):
     def __init__(self):
         super().__init__()
         self.route_repository = RouteRepository(
-            db_url='mongodb://localhost:27017/',  # Inserisci l'URL del tuo database MongoDB
-            db_name='Voli'  # Inserisci il nome del tuo database MongoDB
+            db_url='mongodb://localhost:27017/',
+            db_name='Voli'
         )
 
     @request_mapping("/getAll", method="get")
@@ -20,7 +20,7 @@ class RouteView(View):
         data = []
         for route in routes:
             route_data = {
-                'id': str(route['_id']),  # Converti ObjectId in stringa per JSON
+                'id': str(route['_id']),
                 'airline': route.get('Airline', ''),
                 'airline_id': route.get('Airline ID', ''),
                 'source_airport': route.get('Source airport', ''),
@@ -38,7 +38,7 @@ class RouteView(View):
         route = self.route_repository.get_route_by_id(route_id)
         if route:
             route_data = {
-                'id': str(route['_id']),  # Converti ObjectId in stringa per JSON
+                'id': str(route['_id']),
                 'airline': route.get('Airline', ''),
                 'airline_id': route.get('Airline ID', ''),
                 'source_airport': route.get('Source airport', ''),
@@ -66,7 +66,7 @@ class RouteView(View):
             equipment=data.get('Equipment')
         )
         return JsonResponse({
-            'id': str(route['_id']),  # Converti ObjectId in stringa per JSON
+            'id': str(route['_id']),
             'airline': route.get('Airline', ''),
             'airline_id': route.get('Airline ID', ''),
             'source_airport': route.get('Source airport', ''),
@@ -93,7 +93,7 @@ class RouteView(View):
         )
         if route:
             return JsonResponse({
-                'id': str(route['_id']),  # Converti ObjectId in stringa per JSON
+                'id': str(route['_id']),
                 'airline': route.get('Airline', ''),
                 'airline_id': route.get('Airline ID', ''),
                 'source_airport': route.get('Source airport', ''),
@@ -116,10 +116,7 @@ class RouteView(View):
 
     @request_mapping("/statistics_routes", method="get")
     def get_route_statistics(self, request):
-        # Calcola le statistiche sulle rotte
         route_statistics = self.route_repository.get_route_statistics()
-
-        # Preparare la risposta JSON
         response = [{
             'airline': stat['airline'],
             'total_routes': stat['total_routes']

@@ -10,7 +10,7 @@ class AirportView(View):
         super().__init__()
         self.airport_repository = AirportRepository(
             db_url='mongodb://localhost:27017/',  # URL del tuo database MongoDB
-            db_name='Voli'  # Nome del tuo database MongoDB
+            db_name='Voli'
         )
 
     @request_mapping("/getAll", method="get")
