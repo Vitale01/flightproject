@@ -13,6 +13,6 @@ urlpattern.register(AirportView)
 urlpattern.register(RouteView)
 
 urlpatterns = [
-    path('', views.app),
+    path('', views.index, name='index'),
     path('', include(urlpattern))
 ]

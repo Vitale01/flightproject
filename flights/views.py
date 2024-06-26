@@ -9,6 +9,6 @@ from django.db.models import Count
 from .models import Route
 
 
-def app(request):
+def index(request):
     return render(request, 'index.html')
 
