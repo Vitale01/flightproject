@@ -14,5 +14,6 @@ urlpattern.register(RouteView)
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('Servizi', views.servizi, name='Servizi'),
     path('', include(urlpattern))
 ]

@@ -12,3 +12,5 @@ from .models import Route
 def index(request):
     return render(request, 'index.html')
 
+def servizi(request):
+    return render(request, 'Servizi.html')
