@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inizializzazione della tabella Tabulator
     var table = new Tabulator("#example-table", {
         ajaxURL: getSelectedURL(), // URL dinamico per il caricamento dei dati lato server
-        ajaxParams: { page_size: 50 }, // Parametri per la richiesta AJAX
+        ajaxParams: { page_size: 15 }, // Parametri per la richiesta AJAX
         pagination: "remote", // Paginazione lato server
-        paginationSize: 50, // Numero di righe per pagina
+        paginationSize: 15, // Numero di righe per pagina
         layout: "fitColumns", // Adatta le colonne alla larghezza della tabella
         placeholder: "Nessun dato disponibile", // Messaggio quando non ci sono dati
         columns: [], // Le colonne saranno determinate dinamicamente dopo il caricamento dei dati
