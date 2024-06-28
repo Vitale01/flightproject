@@ -1,0 +1,245 @@
+#controls {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.dropdown {
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Stile personalizzato per una tabella minimal e moderna con bordi smussati */
+.tabulator .tabulator-header .tabulator-col {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+}
+
+.tabulator .tabulator-row {
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabulator .tabulator-row:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tabulator .tabulator-cell {
+    padding: 10px;
+    border: none;
+}
+
+.tabulator .tabulator-row.tabulator-selected {
+    background-color: #2196F3;
+    color: white;
+}
+
+/* Stile per i bottoni della tabella */
+.tabulator .tabulator-footer .tabulator-paginator button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tabulator .tabulator-footer .tabulator-paginator button:hover {
+    background-color: #45a049;
+}
+
+/* Stile per i controlli della tabella */
+#table-controls {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#table-controls button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Stile per il modal */
+.modal {
+    display: none; /* Per default il modal è nascosto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 5px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#data-form {
+    margin-bottom: 20px;
+}
+
+#data-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#data-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+#submit-data {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#submit-data:hover {
+    background-color: #45a049;
+}
+
+/* Stile per il popup di errore */
+.error-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.error-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+}
+
+/* Bottone per chiudere il popup di errore */
+.error-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.error-close:hover,
+.error-close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Testo del messaggio di errore */
+.error-message {
+    color: #FF6347; /* Rosso scuro */
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Stile per il popup di conferma */
+.confirm-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.confirm-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+}
+
+/* Stile per i pulsanti di conferma */
+.confirm-buttons {
+    margin-top: 20px;
+}
+
+.confirm-buttons button {
+    background-color: #4CAF50; /* Colore verde */
+    color: white;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+}
+
+.confirm-buttons button:hover {
+    background-color: #45a049; /* Cambia colore al passaggio del mouse */
+}
+
+.confirm-buttons button#confirm-no {
+    background-color: #f44336; /* Colore rosso per il pulsante 'No' */
+}

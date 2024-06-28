@@ -22,7 +22,11 @@
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
   <link rel="preload" as="style" href="static/mobirise/css/mbr-additional.css?v=P0UtZp"><link rel="stylesheet" href="static/mobirise/css/mbr-additional.css?v=P0UtZp" type="text/css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tabulator-tables@5.0.0/dist/css/tabulator.min.css" rel="stylesheet">
+  <link href="static/Table/custom_tabulator.css" rel="stylesheet">
+  <script src="https://unpkg.com/tabulator-tables@5.0.0/dist/js/tabulator.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   
   
   
@@ -68,7 +72,7 @@
 </section>
 
 <section data-bs-version="5.1" class="header7 cid-ugNypT8KI3" id="header07-1s">
-  
+
 
   
   
@@ -86,7 +90,61 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="mbr-figure col-12 col-md-10"><iframe class="mbr-embedded-video" src="https://www.youtube.com/embed/sGpPgQeEyOc?rel=0&amp;amp;mute=1&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=sGpPgQeEyOc" width="1280" height="720" frameborder="0" allowfullscreen></iframe></div>
+
+        <div id="controls">
+            <select id="main-category" class="dropdown">
+                <option value="airlines">Compagnie Aeree</option>
+                <option value="airplanes">Aerei</option>
+                <option value="airports">Aeroporti</option>
+                <option value="routes">Rotte</option>
+            </select>
+
+            <select id="sub-category" class="dropdown">
+                <option value="getAll">GetAll</option>
+                <option value="statistics_routes">Statistiche</option>
+                <option value="getInactive">GetInactive</option>
+            </select>
+        </div>
+
+        <div id="search-container">
+            <input type="text" id="search" placeholder="Cerca...">
+        </div>
+        <div id="example-table"></div>
+
+        <div id="table-controls">
+            <button id="add-row">Aggiungi Elemento</button>
+            <button id="edit-row">Modifica Elemento</button>
+            <button id="delete-row">Cancella Elemento</button>
+        </div>
+
+        <!-- Modal per l'inserimento e la modifica dei dati -->
+        <div id="data-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="data-form">
+                    <!-- Campi del modulo dinamici -->
+                </form>
+                <button id="submit-data">Salva</button>
+            </div>
+        </div>
+
+        <div id="error-modal" class="error-modal">
+            <div class="error-modal-content">
+                <span id="error-close" class="error-close">&times;</span>
+                <p id="error-message" class="error-message"></p>
+            </div>
+        </div>
+
+        <div id="confirm-modal" class="confirm-modal">
+            <div class="confirm-modal-content">
+                <p id="confirm-message"></p>
+                <div class="confirm-buttons">
+                    <button id="confirm-yes">Sì</button>
+                    <button id="confirm-no">No</button>
+                </div>
+            </div>
+        </div>
+
     </div>
   </div>
 </section>
@@ -116,7 +174,7 @@
 </section>
 
   <script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="static/smoothscroll/smooth-scroll.js"></script>  <script src="static/ytplayer/index.js"></script>  <script src="static/dropdown/js/navbar-dropdown.js"></script>  <script src="static/theme/js/script.js"></script>
-  
+  <script src="static/Table/tabulator_script.js"></script>
   
   <input name="animation" type="hidden">
   </body>
