@@ -23,8 +23,8 @@ class AirportRepository:
             'Country': country,
             'IATA': iata,
             'ICAO': icao,
-            'Latitudine': latitudine,
-            'Longitudine': longitudine,
+            'Latitude': latitudine,
+            'Longitude': longitudine,
             'Altitude': altitude,
             'Timezone': timezone,
             'DST': dst,
@@ -53,9 +53,9 @@ class AirportRepository:
         if icao:
             update_fields['ICAO'] = icao
         if latitudine:
-            update_fields['Latitudine'] = latitudine
+            update_fields['Latitude'] = latitudine
         if longitudine:
-            update_fields['Longitudine'] = longitudine
+            update_fields['Longitude'] = longitudine
         if altitude:
             update_fields['Altitude'] = altitude
         if timezone:

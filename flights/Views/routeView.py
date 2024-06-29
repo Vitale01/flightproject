@@ -21,14 +21,14 @@ class RouteView(View):
         for route in routes:
             route_data = {
                 'id': str(route['_id']),
-                'airline': route.get('Airline', ''),
-                'airline_id': route.get('Airline ID', ''),
-                'source_airport': route.get('Source airport', ''),
-                'source_airport_id': route.get('Source airport ID', ''),
-                'destination_airport': route.get('Destination airport', ''),
-                'destination_airport_id': route.get('Destination airport ID', ''),
-                'stops': route.get('Stops', 0),
-                'equipment': route.get('Equipment', '')
+                'Airline': route.get('Airline', ''),
+                'Airline ID': route.get('Airline ID', ''),
+                'Source airport': route.get('Source airport', ''),
+                'Source airport ID': route.get('Source airport ID', ''),
+                'Destination airport': route.get('Destination airport', ''),
+                'Destination airport ID': route.get('Destination airport ID', ''),
+                'Stops': route.get('Stops', 0),
+                'Equipment': route.get('Equipment', '')
             }
             data.append(route_data)
         return JsonResponse(data, safe=False)
@@ -39,14 +39,14 @@ class RouteView(View):
         if route:
             route_data = {
                 'id': str(route['_id']),
-                'airline': route.get('Airline', ''),
-                'airline_id': route.get('Airline ID', ''),
-                'source_airport': route.get('Source airport', ''),
-                'source_airport_id': route.get('Source airport ID', ''),
-                'destination_airport': route.get('Destination airport', ''),
-                'destination_airport_id': route.get('Destination airport ID', ''),
-                'stops': route.get('Stops', 0),
-                'equipment': route.get('Equipment', '')
+                'Airline': route.get('Airline', ''),
+                'Airline ID': route.get('Airline ID', ''),
+                'Source airport': route.get('Source airport', ''),
+                'Source airport ID': route.get('Source airport ID', ''),
+                'Destination airport': route.get('Destination airport', ''),
+                'Destination airport ID': route.get('Destination airport ID', ''),
+                'Stops': route.get('Stops', 0),
+                'Equipment': route.get('Equipment', '')
             }
             return JsonResponse(route_data)
         else:
@@ -66,15 +66,15 @@ class RouteView(View):
             equipment=data.get('Equipment')
         )
         return JsonResponse({
-            'id': str(route['_id']),
-            'airline': route.get('Airline', ''),
-            'airline_id': route.get('Airline ID', ''),
-            'source_airport': route.get('Source airport', ''),
-            'source_airport_id': route.get('Source airport ID', ''),
-            'destination_airport': route.get('Destination airport', ''),
-            'destination_airport_id': route.get('Destination airport ID', ''),
-            'stops': route.get('Stops', 0),
-            'equipment': route.get('Equipment', '')
+                'id': str(route['_id']),
+                'Airline': route.get('Airline', ''),
+                'Airline ID': route.get('Airline ID', ''),
+                'Source airport': route.get('Source airport', ''),
+                'Source airport ID': route.get('Source airport ID', ''),
+                'Destination airport': route.get('Destination airport', ''),
+                'Destination airport ID': route.get('Destination airport ID', ''),
+                'Stops': route.get('Stops', 0),
+                'Equipment': route.get('Equipment', '')
         })
 
     @request_mapping("/update/<str:route_id>", method="post")
@@ -94,14 +94,14 @@ class RouteView(View):
         if route:
             return JsonResponse({
                 'id': str(route['_id']),
-                'airline': route.get('Airline', ''),
-                'airline_id': route.get('Airline ID', ''),
-                'source_airport': route.get('Source airport', ''),
-                'source_airport_id': route.get('Source airport ID', ''),
-                'destination_airport': route.get('Destination airport', ''),
-                'destination_airport_id': route.get('Destination airport ID', ''),
-                'stops': route.get('Stops', 0),
-                'equipment': route.get('Equipment', '')
+                'Airline': route.get('Airline', ''),
+                'Airline ID': route.get('Airline ID', ''),
+                'Source airport': route.get('Source airport', ''),
+                'Source airport ID': route.get('Source airport ID', ''),
+                'Destination airport': route.get('Destination airport', ''),
+                'Destination airport ID': route.get('Destination airport ID', ''),
+                'Stops': route.get('Stops', 0),
+                'Equipment': route.get('Equipment', '')
             })
         else:
             return JsonResponse({'error': 'Route not found'}, status=404)

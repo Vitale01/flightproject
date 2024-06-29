@@ -106,9 +106,9 @@ class AirlineView(View):
         else:
             return JsonResponse({'error': 'Airline not found'}, status=404)
 
-    @request_mapping("/delete/<str:airline_id>", method="post")
-    def delete_airline(self, request, airline_id):
-        result = self.airline_repository.delete_airline(airline_id)
+    @request_mapping("/delete/<str:objectid>", method="post")
+    def delete_airline(self, request, objectid):
+        result = self.airline_repository.delete_airline(objectid)
         if result:
             return JsonResponse({'message': 'Airline deleted successfully'})
         else:

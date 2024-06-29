@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    var mainCategory = $("#main-category").val();
+   
     // Funzione per ottenere l'URL basato sulle selezioni
     function getSelectedURL() {
         var mainCategory = $("#main-category").val();
@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Gestione del pulsante Elimina riga
     $("#delete-row").on("click", function () {
+        var mainCategory = $("#main-category").val();
         var selectedData = table.getSelectedData();
         if (selectedData.length > 0) {
             showDeleteConfirmation(function (confirmed) {
@@ -66,8 +67,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     selectedData.forEach(function (row) {
                         // Chiamata AJAX per eliminare i dati
                         $.ajax({
-                            url: getSelectedURL() + "/" + row.id,
+                            url: mainCategory + "/delete/" + row.id,
                             type: 'DELETE',
+                            method: 'POST',
                             success: function (result) {
                                 table.setData(getSelectedURL());
                             },
@@ -154,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function openModal(data) {
+        var mainCategory = $("#main-category").val();
         var form = document.getElementById("data-form");
         form.innerHTML = '';
 
@@ -189,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     formData[formInputs[i].name] = formInputs[i].value;
                 }
             }
-
+            
             console.log(formData)
 
             $.ajax({
