@@ -174,7 +174,38 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        var saveButton = document.getElementById("submit-data");
+        saveButton.onclick = function (event) {
+        event.preventDefault(); // Evita il comportamento di default del pulsante
+
+        // Prendi i dati dal modulo
+          var formData = {};
+          var formInputs = form.getElementsByTagName("input");
+          for (var i = 0; i < formInputs.length; i++) {
+              if (formInputs[i].type === 'text') {
+                formData[formInputs[i].name] = formInputs[i].value;
+            }
+    }
+          var mainCategory = $("#main-category").val();
+
+        $.ajax({
+            url: mainCategory+'/create',
+            type: 'POST',
+            data: formData, // Dati da inviare
+            success: function (response) {
+                // Gestisci la risposta
+                console.log("Dati salvati con successo:", response);
+                modal.style.display = "none"; // Chiudi il modal dopo il salvataggio
+                table.setData(getSelectedURL()); // Aggiorna i dati nella tabella, se necessario
+            },
+            error: function (xhr, status, error) {
+                // Gestisci gli errori
+                showErrorModal("Errore durante il salvataggio: " + error);
+            }
+        });
+    };
         modal.style.display = "block";
     }
-
 });
+
+
