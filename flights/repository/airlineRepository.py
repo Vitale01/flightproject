@@ -29,9 +29,11 @@ class AirlineRepository:
         airline['_id'] = result.inserted_id
         return airline
 
-    def update_airline(self, airline_id, name=None, alias=None, iata=None, callsign=None, country=None, active=None,
+    def update_airline(self, objectid, airline_id=None, name=None, alias=None, iata=None, callsign=None, country=None, active=None,
                        icao=None):
         update_fields = {}
+        if airline_id:
+            update_fields['Airline ID'] = airline_id
         if name:
             update_fields['Name'] = name
         if alias:
@@ -48,7 +50,7 @@ class AirlineRepository:
             update_fields['ICAO'] = icao
 
         result = self.airlines_collection.find_one_and_update(
-            {'_id': ObjectId(airline_id)},
+            {'_id': ObjectId(objectid)},
             {'$set': update_fields},
             return_document=ReturnDocument.AFTER
         )

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    var mainCategory = $("#main-category").val();
     // Funzione per ottenere l'URL basato sulle selezioni
     function getSelectedURL() {
         var mainCategory = $("#main-category").val();
@@ -154,11 +155,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function openModal(data) {
         var form = document.getElementById("data-form");
-        form.innerHTML = ''; // Pulisce il contenuto del modulo
+        form.innerHTML = '';
 
+        var url = (data === null) ? mainCategory + '/create' : mainCategory + '/update/' + data.id;
+        var method = (data === null) ? 'POST' : 'POST';
+    
         var columns = table.getColumnDefinitions();
         columns.forEach(function (col) {
-            if (col.field !== "id") { // Esclude il campo ID
+            if (col.field !== "id") {
                 var fieldDiv = document.createElement("div");
                 var label = document.createElement("label");
                 label.innerHTML = col.title;
@@ -166,44 +170,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 input.type = "text";
                 input.name = col.field;
                 if (data) {
-                    input.value = data[col.field] || ""; // Imposta il valore se esiste
+                    input.value = data[col.field] || "";
                 }
                 fieldDiv.appendChild(label);
                 fieldDiv.appendChild(input);
                 form.appendChild(fieldDiv);
             }
         });
-
+    
         var saveButton = document.getElementById("submit-data");
         saveButton.onclick = function (event) {
-        event.preventDefault(); // Evita il comportamento di default del pulsante
-
-        // Prendi i dati dal modulo
-          var formData = {};
-          var formInputs = form.getElementsByTagName("input");
-          for (var i = 0; i < formInputs.length; i++) {
-              if (formInputs[i].type === 'text') {
-                formData[formInputs[i].name] = formInputs[i].value;
+            event.preventDefault();
+    
+            var formData = {};
+            var formInputs = form.getElementsByTagName("input");
+            for (var i = 0; i < formInputs.length; i++) {
+                if (formInputs[i].type === 'text'|| formInputs[i].type === 'hidden') {
+                    formData[formInputs[i].name] = formInputs[i].value;
+                }
             }
-    }
-          var mainCategory = $("#main-category").val();
 
-        $.ajax({
-            url: mainCategory+'/create',
-            type: 'POST',
-            data: formData, // Dati da inviare
-            success: function (response) {
-                // Gestisci la risposta
-                console.log("Dati salvati con successo:", response);
-                modal.style.display = "none"; // Chiudi il modal dopo il salvataggio
-                table.setData(getSelectedURL()); // Aggiorna i dati nella tabella, se necessario
-            },
-            error: function (xhr, status, error) {
-                // Gestisci gli errori
-                showErrorModal("Errore durante il salvataggio: " + error);
-            }
-        });
-    };
+            console.log(formData)
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: formData,
+                success: function (response) {
+                    console.log("Dati salvati con successo:", response);
+                    modal.style.display = "none";
+                    table.setData(getSelectedURL());
+                },
+                error: function (xhr, status, error) {
+                    showErrorModal("Errore durante il salvataggio: " + error);
+                }
+            });
+        };
+
         modal.style.display = "block";
     }
 });

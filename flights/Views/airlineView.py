@@ -77,11 +77,12 @@ class AirlineView(View):
             'ICAO': airline.get('ICAO', ''),
         })
 
-    @request_mapping("/update/<str:airline_id>", method="post")
-    def update_airline(self, request, airline_id):
+    @request_mapping("/update/<str:objectid>", method="post")
+    def update_airline(self, request, objectid):
         data = request.POST
         airline = self.airline_repository.update_airline(
-            airline_id=airline_id,
+            objectid = objectid,
+            airline_id=data.get('Airline ID'),
             name=data.get('Name'),
             alias=data.get('Alias'),
             iata=data.get('IATA'),
