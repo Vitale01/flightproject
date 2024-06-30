@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-   
     // Funzione per ottenere l'URL basato sulle selezioni
     function getSelectedURL() {
         var mainCategory = $("#main-category").val();
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
         placeholder: "Nessun dato disponibile", // Messaggio quando non ci sono dati
         columns: [], // Le colonne saranno determinate dinamicamente dopo il caricamento dei dati
         ajaxResponse: function (url, params, response) {
-            // Aggiorna le colonne dinamicamente
             if (response.length > 0) {
                 var columns = [];
                 for (var key in response[0]) {
@@ -33,6 +30,22 @@ document.addEventListener('DOMContentLoaded', function () {
         selectable: true, // Abilita la selezione delle righe
         rowClick: function (e, row) {
             row.toggleSelect();
+        },
+
+    });
+
+    table.on("tableBuilt", function() {
+        var footerDiv = document.querySelector('.tabulator-footer');
+        console.log(footerDiv);
+
+        if (footerDiv) {
+            var newButton = document.createElement('button');
+            newButton.innerText = 'Nuovo Pulsante';
+            footerDiv.appendChild(newButton);
+            newButton.style.float = 'left';
+            console.log('Button added:', newButton);
+        } else {
+            console.error('Div with class "tabulator-footer" not found.');
         }
     });
 
@@ -233,6 +246,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         modal.style.display = "block";
     }
+
+
 
 
 });
