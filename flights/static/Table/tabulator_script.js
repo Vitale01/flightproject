@@ -39,11 +39,23 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(footerDiv);
 
         if (footerDiv) {
-            var newButton = document.createElement('button');
-            newButton.innerText = 'Nuovo Pulsante';
-            footerDiv.appendChild(newButton);
-            newButton.style.float = 'left';
-            console.log('Button added:', newButton);
+            var addButton = document.getElementById('add-row');
+            var editButton = document.getElementById('edit-row');
+            var deleteButton = document.getElementById('delete-row');
+            var search = document.getElementById('search');
+
+            footerDiv.appendChild(addButton);
+            footerDiv.appendChild(editButton);
+            footerDiv.appendChild(deleteButton);
+            addButton.style.float = 'left';
+            editButton.style.float = 'left';
+            deleteButton.style.float = 'left';
+
+            search.classList.add('centered-search');
+            footerDiv.appendChild(search);
+
+
+            console.log('Button added:', addButton);
         } else {
             console.error('Div with class "tabulator-footer" not found.');
         }

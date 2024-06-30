@@ -251,3 +251,10 @@
 .confirm-buttons button#confirm-no {
     background-color: #f44336; /* Colore rosso per il pulsante 'No' */
 }
+
+.centered-search {
+    align-items: center;
+    display: block; /* Assicura che l'elemento sia visualizzato come blocco */
+    margin-top: -20px;
+    margin-left: 300px;
+}
