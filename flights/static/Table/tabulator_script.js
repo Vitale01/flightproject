@@ -36,6 +36,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Event listener per il campo di ricerca
+    // Aggiungi l'evento di input per il campo di ricerca
+    $("#search").on("input", function () {
+        var searchValue = $(this).val().toLowerCase();
+        table.setFilter(customFilter);
+    });
+
+    // Definizione del filtro personalizzato
+    function customFilter(data) {
+        var searchValue = $("#search").val().toLowerCase();
+        if (!searchValue) return true;
+
+        // Controlla se uno qualsiasi dei valori della riga contiene il testo di ricerca
+        for (var key in data) {
+            if (data[key] && data[key].toString().toLowerCase().includes(searchValue)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Cambia URL dinamicamente quando cambia la selezione delle categorie
     $("#main-category, #sub-category").on("change", function () {
         var selectedURL = getSelectedURL();
@@ -212,6 +233,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         modal.style.display = "block";
     }
+
+
 });
 
 
