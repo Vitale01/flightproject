@@ -27,6 +27,7 @@
   <link href="static/Table/custom_tabulator.css" rel="stylesheet">
   <script src="https://unpkg.com/tabulator-tables@5.0.0/dist/js/tabulator.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   
   
   
@@ -101,16 +102,20 @@
             </select>
         </div>
 
+
+
         <div id="search-container">
-            <input type="text" id="search" placeholder="Cerca..."> <!-- Campo di ricerca -->
+            <input type="text" id="search" placeholder="Cerca...">
+            <i class="fa fa-search" id="Cerca"></i>
         </div>
+
 
         <div id="example-table"></div>
 
         <div id="table-controls">
-            <button id="add-row">Aggiungi Elemento</button>
-            <button id="edit-row">Modifica Elemento</button>
-            <button id="delete-row">Cancella Elemento</button>
+            <button id="add-row"><i class="fa fa-plus icon"></i>Aggiungi</button>
+            <button id="edit-row"><i class="fa fa-edit icon"></i>Modifica</button>
+            <button id="delete-row"><i class="fa fa-trash icon"></i>Cancella</button>
         </div>
 
         <!-- Modal per l'inserimento e la modifica dei dati -->

@@ -39,27 +39,50 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(footerDiv);
 
         if (footerDiv) {
+            // Creare un nuovo div per contenere i bottoni e la ricerca
+            var buttonContainerDiv = document.createElement('div');
+            buttonContainerDiv.className = 'button-container';
+
+            // Sposta i bottoni nel nuovo div
             var addButton = document.getElementById('add-row');
             var editButton = document.getElementById('edit-row');
             var deleteButton = document.getElementById('delete-row');
+
+            buttonContainerDiv.appendChild(addButton);
+            buttonContainerDiv.appendChild(editButton);
+            buttonContainerDiv.appendChild(deleteButton);
+
+            // Crea un div per la barra di ricerca
+            var searchContainerDiv = document.createElement('div');
+            searchContainerDiv.className = 'search-container';
+
             var search = document.getElementById('search');
+            searchContainerDiv.appendChild(search);
+            var cercaButton = document.getElementById('Cerca');
+            searchContainerDiv.appendChild(cercaButton);
+            // Crea un div per il paginator
+            var paginatorContainerDiv = document.createElement('div');
+            paginatorContainerDiv.className = 'paginator-container';
 
-            footerDiv.appendChild(addButton);
-            footerDiv.appendChild(editButton);
-            footerDiv.appendChild(deleteButton);
-            addButton.style.float = 'left';
-            editButton.style.float = 'left';
-            deleteButton.style.float = 'left';
+            // Inserisce il paginator originale nel nuovo div
+            while (footerDiv.firstChild) {
+                paginatorContainerDiv.appendChild(footerDiv.firstChild);
+            }
 
-            search.classList.add('centered-search');
-            footerDiv.appendChild(search);
-
+            // Aggiungi i nuovi div nel footerDiv
+            footerDiv.appendChild(buttonContainerDiv);
+            footerDiv.appendChild(searchContainerDiv);
+            footerDiv.appendChild(paginatorContainerDiv);
 
             console.log('Button added:', addButton);
         } else {
             console.error('Div with class "tabulator-footer" not found.');
         }
     });
+
+    // Event listener per il pulsante Aggiungi riga
+
+
 
     // Event listener per il campo di ricerca
     // Aggiungi l'evento di input per il campo di ricerca

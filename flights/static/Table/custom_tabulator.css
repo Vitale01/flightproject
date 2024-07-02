@@ -58,8 +58,8 @@
     color: #009879;
 }
 
-.tabulator .tabulator-cell.tabulator-selected:nth-child(even) {
-    background-color: #f3f3f3 !important; /* Mantieni il colore per le righe pari selezionate */
+.tabulator .tabulator-row.tabulator-selected:nth-child(odd) {
+    background-color: #ffffff !important; /* Mantieni il colore per le righe pari selezionate */
 }
 
 /* Stile per i controlli della tabella */
@@ -258,3 +258,195 @@
     margin-top: -20px;
     margin-left: 300px;
 }
+
+/* Wrapper per il footer che contiene i bottoni, la ricerca e il paginator */
+.tabulator-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+/* Container per i bottoni */
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Stili per i bottoni */
+.button-container button {
+    margin: 0 5px;
+    --color: #009879;
+    padding: 0.5em 1em;
+    background-color: transparent;
+    border-radius: .3em;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: .5s;
+    font-weight: 400;
+    font-size: 15px;
+    border: 1px solid;
+    font-family: inherit;
+    text-transform: uppercase;
+    color: var(--color);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
+.button-container button::before, .button-container button::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    background-color: var(--color);
+    transition: 1s ease;
+}
+
+.button-container button::before {
+    top: -1em;
+    left: -1em;
+}
+
+.button-container button::after {
+    left: calc(100% + 1em);
+    top: calc(100% + 1em);
+}
+
+.button-container button:hover::before, .button-container button:hover::after {
+    height: 410px;
+    width: 410px;
+}
+
+.button-container button:hover {
+    color: rgb(10, 25, 30);
+}
+
+.button-container button:active {
+    filter: brightness(.8);
+}
+
+/* Icona del simbolo + */
+.button-container .icon {
+    font-size: 18px;
+}
+
+.search-container {
+    position: relative;
+    width: 80%;
+    max-width: 300px; /* Larghezza massima */
+    margin-right: 4%; /* Centra la barra di ricerca */
+}
+
+.search-container input[type="text"] {
+    width: calc(100% - 40px); /* Larghezza dell'input calcolata */
+    padding: 10px 20px; /* Spazio per l'icona */
+    font-size: 14px; /* Dimensione del carattere ridotta */
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Bordo più arrotondato */
+    outline: none;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: #009879;
+    box-shadow: 0 0 8px rgba(0, 150, 60, 0.5);
+}
+
+.search-container .fa-search {
+    position: absolute;
+    right: 10px; /* Posizione dell'icona rispetto alla destra */
+    top: 50%; /* Centra verticalmente l'icona */
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: 16px; /* Dimensione del carattere per l'icona */
+    pointer-events: none;
+}
+/* Container per il paginator */
+.paginator-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Stili per i bottoni della paginazione */
+.paginator-container .tabulator-page {
+    padding: 5px 9px !important; /* Dimensioni ancora più ridotte */
+    background-color: #fff !important;
+    border: 1px solid #009879 !important; /* Colore del bordo uguale a quelli di sinistra con !important */
+    border-radius: 4px !important;
+    font-size: 12px !important; /* Dimensioni del testo ridotte */
+    font-weight: 500 !important;
+    color: #009879 !important; /* Colore del testo uguale a quelli di sinistra */
+    cursor: pointer !important;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s !important;
+    margin-right: 5px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: inline-flex !important; /* Usare inline-flex per evitare di interrompere il layout della tabella */
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.paginator-container .tabulator-page::before,
+.paginator-container .tabulator-page::after {
+    content: '';
+    display: block;
+    width: 16px; /* Dimensioni iniziali */
+    height: 16px; /* Dimensioni iniziali */
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    background-color: var(--color); /* Colore variabile */
+    transition: 1s ease;
+}
+
+.paginator-container .tabulator-page::before {
+    top: -0.3em;
+    left: -0.3em;
+}
+
+.paginator-container .tabulator-page::after {
+    left: calc(100% + 0.3em);
+    top: calc(100% + 0.3em);
+}
+
+.paginator-container .tabulator-page.active {
+    background-color: #009879 !important; /* Sfondo del bottone attivo */
+    color: #fff !important; /* Colore del testo del bottone attivo */
+}
+
+.paginator-container .tabulator-page:hover::before,
+.paginator-container .tabulator-page:hover::after {
+    height: 210px;
+    width: 210px;
+}
+
+.paginator-container .tabulator-page:hover {
+    color: rgb(10, 25, 30) !important;
+    background-color: #009879 !important; /* Cambio colore di sfondo al passaggio del mouse con !important */
+    border-color: #009879 !important; /* Cambio colore del bordo al passaggio del mouse con !important */
+}
+
+.paginator-container .tabulator-page:active {
+    filter: brightness(0.8) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
