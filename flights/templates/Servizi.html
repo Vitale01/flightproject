@@ -39,8 +39,8 @@
 
 	<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
 		<div class="container">
-			<div class="navbar-brand">
-				<span class="navbar-logo">
+			<div class="navbar-brand" style="z-index: 1;">
+				<span class="navbar-logo" style="z-index: 1;">
 					<a href="{% url 'index' %}">
 						<img src="static/images/beyond-the-sky-removebg-preview-160x160.png"  style="height: 5rem;">
 					</a>
@@ -55,7 +55,7 @@
 					<span></span>
 				</div>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent" style="z-index: 0;">
 				<ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item">
 						<a class="nav-link link text-black text-primary display-4" href="{% url 'index' %}">Home</a>
 					</li>
