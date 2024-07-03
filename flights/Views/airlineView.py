@@ -81,7 +81,7 @@ class AirlineView(View):
     def update_airline(self, request, objectid):
         data = request.POST
         airline = self.airline_repository.update_airline(
-            objectid = objectid,
+            objectid=objectid,
             airline_id=data.get('Airline ID'),
             name=data.get('Name'),
             alias=data.get('Alias'),
@@ -113,3 +113,46 @@ class AirlineView(View):
             return JsonResponse({'message': 'Airline deleted successfully'})
         else:
             return JsonResponse({'error': 'Airline not found'}, status=404)
+
+    @request_mapping("/getActiveAirlines", method="get")
+    def get_active_airlines(self, request):
+        airlines = self.airline_repository.get_active_airlines()
+        data = []
+        for airline in airlines:
+            airline_data = {
+                'id': str(airline['_id']),
+                'Airline ID': airline.get('Airline ID', ''),
+                'Name': airline.get('Name', ''),
+                'Alias': airline.get('Alias', ''),
+                'IATA': airline.get('IATA', ''),
+                'Callsign': airline.get('Callsign', ''),
+                'Country': airline.get('Country', ''),
+                'Active': airline.get('Active', ''),
+                'ICAO': airline.get('ICAO', '')
+            }
+            data.append(airline_data)
+        return JsonResponse(data, safe=False)
+
+    @request_mapping("/getAirlineForCountry/<str:country>", method="get")
+    def get_airline_for_country(self, request, country):
+        airlines = self.airline_repository.get_airline_for_country(country)
+        data = []
+        if airlines:
+            for airline in airlines:
+                airline_data = {
+                    'id': str(airline['_id']),
+                    'Airline ID': airline.get('Airline ID', ''),
+                    'Name': airline.get('Name', ''),
+                    'Alias': airline.get('Alias', ''),
+                    'IATA': airline.get('IATA', ''),
+                    'Callsign': airline.get('Callsign', ''),
+                    'Country': airline.get('Country', ''),
+                    'Active': airline.get('Active', ''),
+                    'ICAO': airline.get('ICAO', '')
+                }
+                data.append(airline_data)
+            return JsonResponse(data, safe=False)
+        else:
+            return JsonResponse("No airlines found for country:" + country, safe=False, status=404)
+
+

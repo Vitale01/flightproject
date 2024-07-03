@@ -123,3 +123,24 @@ class RouteView(View):
         } for stat in route_statistics]
 
         return JsonResponse(response, safe=False)
+
+    @request_mapping("/max_stops", method="get")
+    def get_routes_with_max_stops(self, request):
+        routes = self.route_repository.get_all_routes()
+        max_stops = max(route.get('Stops', 0) for route in routes)
+        routes_with_max_stops = [
+            {
+                'id': str(route['_id']),
+                'Airline': route.get('Airline', ''),
+                'Airline ID': route.get('Airline ID', ''),
+                'Source airport': route.get('Source airport', ''),
+                'Source airport ID': route.get('Source airport ID', ''),
+                'Destination airport': route.get('Destination airport', ''),
+                'Destination airport ID': route.get('Destination airport ID', ''),
+                'Stops': route.get('Stops', 0),
+                'Equipment': route.get('Equipment', '')
+            }
+            for route in routes if route.get('Stops', 0) == max_stops
+        ]
+
+        return JsonResponse(routes_with_max_stops, safe=False)

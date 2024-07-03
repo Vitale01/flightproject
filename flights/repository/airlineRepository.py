@@ -29,7 +29,8 @@ class AirlineRepository:
         airline['_id'] = result.inserted_id
         return airline
 
-    def update_airline(self, objectid, airline_id=None, name=None, alias=None, iata=None, callsign=None, country=None, active=None,
+    def update_airline(self, objectid, airline_id=None, name=None, alias=None, iata=None, callsign=None, country=None,
+                       active=None,
                        icao=None):
         update_fields = {}
         if airline_id:
@@ -60,4 +61,8 @@ class AirlineRepository:
         result = self.airlines_collection.delete_one({'_id': ObjectId(objectid)})
         return result.deleted_count > 0
 
+    def get_active_airlines(self):
+        return list(self.airlines_collection.find({'Active': 'Y'}))
 
+    def get_airline_for_country(self, country):
+        return list(self.airlines_collection.find({'Country': country}))
