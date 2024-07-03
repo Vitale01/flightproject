@@ -28,6 +28,8 @@
   <script src="https://unpkg.com/tabulator-tables@5.0.0/dist/js/tabulator.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   
   
   
@@ -86,20 +88,25 @@
     </div>
 
     <div class="row justify-content-center">
-
         <div id="controls">
-            <select id="main-category" class="dropdown">
-                <option value="airlines">Compagnie Aeree</option>
-                <option value="airplanes">Aerei</option>
-                <option value="airports">Aeroporti</option>
-                <option value="routes">Rotte</option>
-            </select>
+            <div class="dropdown" id="main-category-dropdown">
+                <input type="text" class="textBox" id="main-category" placeholder="Compagnie Aeree" readonly>
+                <div class="option">
+                    <div data-value="airlines"><ion-icon name="airplane"></ion-icon> Compagnie Aeree</div>
+                    <div data-value="airplanes"><ion-icon name="airplane"></ion-icon> Aerei</div>
+                    <div data-value="airports"><ion-icon name="airplane"></ion-icon> Aeroporti</div>
+                    <div data-value="routes"><ion-icon name="airplane"></ion-icon> Rotte</div>
+                </div>
+            </div>
 
-            <select id="sub-category" class="dropdown">
-                <option value="getAll">GetAll</option>
-                <option value="statistics_routes">Statistiche</option>
-                <option value="getInactive">GetInactive</option>
-            </select>
+            <div class="dropdown" id="sub-category-dropdown">
+                <input type="text" class="textBox" id="sub-category" placeholder="GetAll" readonly>
+                <div class="option">
+                    <div data-value="getAll"><ion-icon name="stats-chart"></ion-icon> GetAll</div>
+                    <div data-value="statistics_routes"><ion-icon name="stats-chart"></ion-icon> Statistiche</div>
+                    <div data-value="getInactive"><ion-icon name="stats-chart"></ion-icon> GetInactive</div>
+                </div>
+            </div>
         </div>
 
 

@@ -1,8 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Funzione per ottenere l'URL basato sulle selezioni
     function getSelectedURL() {
-        var mainCategory = $("#main-category").val();
-        var subCategory = $("#sub-category").val();
+        var mainCategory = document.getElementById('main-category').getAttribute('data-value');
+        var subCategory = document.getElementById('sub-category').getAttribute('data-value');
+
+        // Impostiamo valori di default se mainCategory o subCategory sono undefined
+        if (!mainCategory) {
+            mainCategory = 'airlines'; // Imposta il default su 'airlines'
+        }
+        if (!subCategory) {
+            subCategory = 'getAll'; // Imposta il default su 'getAll'
+        }
+
         return `/${mainCategory}/${subCategory}`;
     }
 
@@ -30,8 +39,38 @@ document.addEventListener('DOMContentLoaded', function () {
         selectable: true, // Abilita la selezione delle righe
         rowClick: function (e, row) {
             row.toggleSelect();
-        },
+        }
+    });
 
+    // Gestione dei dropdown personalizzati
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+        const input = dropdown.querySelector('.textBox');
+        const options = dropdown.querySelector('.option');
+
+        input.addEventListener('click', function() {
+            dropdown.classList.toggle('active');
+            options.style.display = dropdown.classList.contains('active') ? 'block' : 'none';
+        });
+
+        options.querySelectorAll('div[data-value]').forEach(option => {
+            option.addEventListener('click', function() {
+                input.value = this.textContent.trim();
+                input.setAttribute('data-value', this.getAttribute('data-value'));
+                dropdown.classList.remove('active');
+                options.style.display = 'none';
+
+                // Aggiorna la tabella con i nuovi dati
+                table.setData(getSelectedURL());
+            });
+        });
+    });
+
+    // Cambia URL dinamicamente quando cambia la selezione delle categorie
+    document.querySelectorAll('.textBox').forEach(input => {
+        input.addEventListener('change', function () {
+            var selectedURL = getSelectedURL();
+            table.setData(selectedURL);
+        });
     });
 
     table.on("tableBuilt", function() {
@@ -79,9 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Div with class "tabulator-footer" not found.');
         }
     });
-
-    // Event listener per il pulsante Aggiungi riga
-
 
 
     // Event listener per il campo di ricerca
