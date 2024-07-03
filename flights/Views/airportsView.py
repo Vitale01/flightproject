@@ -1,7 +1,10 @@
 from django.http import JsonResponse
 from django.views import View
 from flights.repository.airportRepository import AirportRepository
+from flights.repository.airplaneRepository import AirplaneRepository
 from django_request_mapping import request_mapping
+from bson import ObjectId
+
 
 @request_mapping("/airports")
 class AirportView(View):
@@ -9,8 +12,11 @@ class AirportView(View):
     def __init__(self):
         super().__init__()
         self.airport_repository = AirportRepository(
-            db_url='mongodb://localhost:27017/',  # URL del tuo database MongoDB
+            db_url='mongodb://localhost:27017/',
             db_name='Voli'
+        )
+        self.airplane_repository = AirplaneRepository(
+            db_url='mongodb://localhost:27017/', db_name='Voli'
         )
 
     @request_mapping("/getAll", method="get")
@@ -166,5 +172,52 @@ class AirportView(View):
             'country': airport['_id'],
             'total_airports': airport['total_airports']
         } for airport in airports_by_country]
+
+        return JsonResponse(response, safe=False)
+
+    #Questa funzione serve per la stampa degli ObjectID
+    def convert_object_id_to_str(self, data):
+        if isinstance(data, dict):
+            return {k: self.convert_object_id_to_str(v) for k, v in data.items()}
+        elif isinstance(data, list):
+            return [self.convert_object_id_to_str(item) for item in data]
+        elif isinstance(data, ObjectId):
+            return str(data)
+        else:
+            return data
+    @request_mapping("/matching_codes", method="get")
+    def get_matching_codes(self, request):
+        airports = self.airport_repository.get_all_airports()
+        airplanes = self.airplane_repository.get_all_airplanes()
+
+        airport_iata_map = {airport['IATA']: airport for airport in airports if 'IATA' in airport}
+        airplane_iata_map = {airplane['IATA code']: airplane for airplane in airplanes if 'IATA code' in airplane}
+
+        airport_icao_map = {airport['ICAO']: airport for airport in airports if 'ICAO' in airport}
+        airplane_icao_map = {airplane['ICAO code']: airplane for airplane in airplanes if 'ICAO code' in airplane}
+
+        matching_iata = []
+        for iata, airport in airport_iata_map.items():
+            if iata in airplane_iata_map:
+                matching_iata.append({
+                    'iata': iata,
+                    'airport': self.convert_object_id_to_str(airport),
+                    'airplane': self.convert_object_id_to_str(airplane_iata_map[iata])
+                })
+
+        matching_icao = []
+        for icao, airport in airport_icao_map.items():
+            if icao in airplane_icao_map:
+                matching_icao.append({
+                    'icao': icao,
+                    'airport': self.convert_object_id_to_str(airport),
+                    'airplane': self.convert_object_id_to_str(airplane_icao_map[icao])
+                })
+
+
+        response = {
+            'matching_iata': matching_iata,
+            'matching_icao': matching_icao
+        }
 
         return JsonResponse(response, safe=False)

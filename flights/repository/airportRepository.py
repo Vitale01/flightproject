@@ -14,6 +14,9 @@ class AirportRepository:
     def get_airport_by_id(self, airport_id):
         return self.airports_collection.find_one({'_id': ObjectId(airport_id)})
 
+    def get_airport_by_source(self, airport_name):
+        return self.airports_collection.find_one({'Source'})
+
     def create_airport(self, airport_id, name, city, country, iata, icao, latitudine, longitudine, altitude,
                        timezone, dst, tz_database_timezone, type, source):
         airport = {
