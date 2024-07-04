@@ -74,81 +74,101 @@
     cursor: pointer;
 }
 
-/* Stile per il modal */
 .modal {
     display: none; /* Per default il modal è nascosto */
     position: fixed;
-    z-index: 1;
+    z-index: 9999; /* Aumentato il valore di z-index */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4); /* Sfondo semitrasparente */
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 5px;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 80%;
+    overflow-y: auto; /* Scrollbar appare solo se necessario */
 }
 
 .close {
     color: #aaa;
-    float: right;
-    font-size: 28px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: none;
+    background: none;
     font-weight: bold;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }
 
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
-    cursor: pointer;
 }
 
 #data-form {
-    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2rem; /* Aggiungi uno spazio tra la "x" e il primo elemento */
+}
+
+.field-div {
+    flex-basis: calc(50% - 1rem); /* 50% meno lo spazio del gap */
+    display: flex;
+    flex-direction: column;
 }
 
 #data-form label {
-    display: block;
-    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
 }
 
 #data-form input[type="text"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
     box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
 }
 
 #submit-data {
-    background-color: #4CAF50;
+    background-color: #009879;
     color: white;
     border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s ease;
+    margin-top: 2rem; /* Aggiungi spazio tra l'ultimo input e il pulsante "Salva" */
 }
 
 #submit-data:hover {
-    background-color: #45a049;
+    background-color: #007f66;
 }
+
+
+
 
 /* Stile per il popup di errore */
 .error-modal {
@@ -160,30 +180,31 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4); /* Sfondo semitrasparente */
 }
 
 .error-modal-content {
-    background-color: #fefefe;
+    background-color: #fff;
     margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 1.5rem;
+    border-radius: 10px;
     width: 50%;
-    text-align: center;
-    border-radius: 5px;
+    max-width: 500px;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
     position: relative;
+    text-align: center;
 }
 
-/* Bottone per chiudere il popup di errore */
 .error-close {
     color: #aaa;
-    float: right;
-    font-size: 28px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: none;
+    background: none;
     font-weight: bold;
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
 }
 
 .error-close:hover,
@@ -192,11 +213,10 @@
     text-decoration: none;
 }
 
-/* Testo del messaggio di errore */
 .error-message {
     color: #FF6347; /* Rosso scuro */
-    font-size: 18px;
-    margin-top: 20px;
+    font-size: 1rem;
+    margin-top: 1rem;
 }
 
 /* Stile per il popup di conferma */
@@ -209,43 +229,78 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4); /* Sfondo semitrasparente */
 }
 
 .confirm-modal-content {
-    background-color: #fefefe;
+    background-color: #fff;
     margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 1.5rem;
+    border-radius: 10px;
     width: 50%;
-    text-align: center;
-    border-radius: 5px;
+    max-width: 500px;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
     position: relative;
+    text-align: center;
 }
 
-/* Stile per i pulsanti di conferma */
+/* Stile per il popup di conferma */
+.confirm-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Sfondo semitrasparente */
+}
+
+.confirm-modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 500px;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
+    position: relative;
+    text-align: center;
+}
+
 .confirm-buttons {
-    margin-top: 20px;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center; /* Allinea i pulsanti al centro */
+    gap: 1rem; /* Spazio tra i pulsanti */
 }
 
 .confirm-buttons button {
-    background-color: #4CAF50; /* Colore verde */
+    background-color: #009879; /* Colore verde */
     color: white;
-    padding: 10px 20px;
-    margin: 0 5px;
+    padding: 0.5rem 1rem; /* Padding ridotto */
     border: none;
-    border-radius: 3px;
+    border-radius: 0.25rem;
     cursor: pointer;
     outline: none;
+    font-size: 0.875rem;
+    transition: 0.15s ease;
+    width: 100px; /* Larghezza fissa */
+    box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza */
 }
 
 .confirm-buttons button:hover {
-    background-color: #45a049; /* Cambia colore al passaggio del mouse */
+    background-color: #007f66; /* Cambia colore al passaggio del mouse */
 }
 
 .confirm-buttons button#confirm-no {
     background-color: #f44336; /* Colore rosso per il pulsante 'No' */
 }
+.confirm-buttons button:hover#confirm-no {
+    background-color: #c41003; /* Colore rosso per il pulsante 'No' */
+}
+
 
 .centered-search {
     align-items: center;
@@ -494,7 +549,7 @@
     margin-top: 100px;
     width: 300px;
     height: 50px;
-    z-index: 1000;
+    z-index: 1;
     margin-right: 20px;
 }
 
@@ -503,7 +558,7 @@
     position: absolute;
     right: 20px;
     top: 15px;
-    z-index: 10000;
+    z-index: 1;
     width: 8px;
     height: 8px;
     border: 2px solid #333;

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Funzione per ottenere l'URL basato sulle selezioni
     function getSelectedURL() {
-        var mainCategory = document.getElementById('main-category').getAttribute('data-value');
+        var mainCategory = document.getElementById('main-category').dataset.value;
         var subCategory = document.getElementById('sub-category').getAttribute('data-value');
 
         // Impostiamo valori di default se mainCategory o subCategory sono undefined
@@ -164,7 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Gestione del pulsante Elimina riga
     $("#delete-row").on("click", function () {
-        var mainCategory = $("#main-category").val();
+        var mainCategory = document.getElementById('main-category').dataset.value;
+        if (!mainCategory) {
+            mainCategory = 'airlines'; // Imposta il default su 'airlines'
+        }
         var selectedData = table.getSelectedData();
         if (selectedData.length > 0) {
             showDeleteConfirmation(function (confirmed) {
@@ -261,17 +264,24 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function openModal(data) {
-        var mainCategory = $("#main-category").val();
+        var mainCategory = document.getElementById('main-category').dataset.value;
         var form = document.getElementById("data-form");
+
+        if (!mainCategory) {
+            mainCategory = 'airlines'; // Imposta il default su 'airlines'
+        }
+
         form.innerHTML = '';
 
         var url = (data === null) ? mainCategory + '/create' : mainCategory + '/update/' + data.id;
         var method = (data === null) ? 'POST' : 'POST';
-    
+
         var columns = table.getColumnDefinitions();
         columns.forEach(function (col) {
             if (col.field !== "id") {
                 var fieldDiv = document.createElement("div");
+                fieldDiv.className = "field-div"; // Aggiungi la classe qui
+
                 var label = document.createElement("label");
                 label.innerHTML = col.title;
                 var input = document.createElement("input");
@@ -285,19 +295,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 form.appendChild(fieldDiv);
             }
         });
-    
+
         var saveButton = document.getElementById("submit-data");
         saveButton.onclick = function (event) {
             event.preventDefault();
-    
+
             var formData = {};
             var formInputs = form.getElementsByTagName("input");
             for (var i = 0; i < formInputs.length; i++) {
-                if (formInputs[i].type === 'text'|| formInputs[i].type === 'hidden') {
+                if (formInputs[i].type === 'text' || formInputs[i].type === 'hidden') {
                     formData[formInputs[i].name] = formInputs[i].value;
                 }
             }
-            
+
             console.log(formData)
 
             $.ajax({
@@ -315,8 +325,22 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         };
 
+        // Rimuovi eventuali altezze preimpostate
+        var modalContent = document.querySelector('.modal-content');
+        modalContent.style.height = 'auto';
+
+        // Visualizza la modale
         modal.style.display = "block";
+
+        // Calcola l'altezza del contenuto
+        var contentHeight = modalContent.scrollHeight;
+
+        // Imposta l'altezza della modale in base al contenuto
+        modalContent.style.height = contentHeight + 'px';
     }
+
+
+
 
 });
 
