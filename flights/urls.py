@@ -14,6 +14,7 @@ urlpattern.register(RouteView)
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('get_subcategories/', views.get_subcategories, name='get_subcategories'),
     path('Servizi', views.servizi, name='Servizi'),
     path('', include(urlpattern))
 ]

@@ -15,6 +15,59 @@ document.addEventListener('DOMContentLoaded', function () {
         return `/${mainCategory}/${subCategory}`;
     }
 
+    // Mappa per convertire i nomi delle funzioni in nomi visualizzati
+    var functionToDisplayName = {
+        'getAll': 'GetAll',
+        'getAirlineForCountry/<str:country>': 'GetAirlineForCountry',
+        'getActiveAirlines': 'GetActiveAirlines',
+        'matching_codes': 'Matching Codes',
+        'airports_by_country': 'Airports By Country',
+        'get_cities_with_most_airports': 'Cities with Most Airports',
+        'statistics_routes': 'Statistics',
+        'max_stops': 'Max Stops'
+    };
+
+    // Funzione per aggiornare il dropdown delle subcategorie
+    function updateSubCategoryDropdown(mainCategory) {
+        console.log("updateCategory")
+        var subCategoryDropdown = document.getElementById('sub-category-dropdown');
+        var subCategoryOptions = subCategoryDropdown.querySelector('.option');
+        subCategoryOptions.innerHTML = '';
+        $.ajax({
+        url: '/get_subcategories/',
+        method: 'GET',
+        data: { main_category: mainCategory },
+        success: function (data) {
+            data.forEach(function (item) {
+                var displayName = functionToDisplayName[item] || item;
+                var option = document.createElement('div');
+                option.setAttribute('data-value', item);
+                option.innerHTML = `<ion-icon name="stats-chart"></ion-icon> ${displayName}`;
+                subCategoryOptions.appendChild(option);
+
+                option.addEventListener('click', function() {
+                    var input = subCategoryDropdown.querySelector('.textBox');
+                    input.value = this.textContent.trim();
+                    input.setAttribute('data-value', this.getAttribute('data-value'));
+                    subCategoryDropdown.classList.remove('active');
+                    subCategoryOptions.style.display = 'none';
+
+                    table.setData(getSelectedURL());
+                });
+            });
+
+            var subCategoryInput = subCategoryDropdown.querySelector('.textBox');
+                subCategoryInput.value = 'GetAll';
+                subCategoryInput.setAttribute('data-value', 'getAll');
+                table.setData(getSelectedURL());
+        },
+        error: function (xhr, status, error) {
+            showErrorModal("Errore durante il caricamento dei sub-category: " + error);
+        }
+    });
+
+    }
+
     // Inizializzazione della tabella Tabulator
     var table = new Tabulator("#example-table", {
         ajaxURL: getSelectedURL(), // URL dinamico per il caricamento dei dati lato server
@@ -58,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 input.setAttribute('data-value', this.getAttribute('data-value'));
                 dropdown.classList.remove('active');
                 options.style.display = 'none';
-
+                var mainCategory = document.getElementById('main-category').getAttribute('data-value');
+                updateSubCategoryDropdown(mainCategory)
                 // Aggiorna la tabella con i nuovi dati
                 table.setData(getSelectedURL());
             });

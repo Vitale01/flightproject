@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.views import View
 from flights.repository.airportRepository import AirportRepository
@@ -175,7 +177,7 @@ class AirportView(View):
 
         return JsonResponse(response, safe=False)
 
-    #Questa funzione serve per la stampa degli ObjectID
+    # Questa funzione serve per la stampa degli ObjectID
     def convert_object_id_to_str(self, data):
         if isinstance(data, dict):
             return {k: self.convert_object_id_to_str(v) for k, v in data.items()}
@@ -185,6 +187,7 @@ class AirportView(View):
             return str(data)
         else:
             return data
+
     @request_mapping("/matching_codes", method="get")
     def get_matching_codes(self, request):
         airports = self.airport_repository.get_all_airports()
@@ -196,28 +199,30 @@ class AirportView(View):
         airport_icao_map = {airport['ICAO']: airport for airport in airports if 'ICAO' in airport}
         airplane_icao_map = {airplane['ICAO code']: airplane for airplane in airplanes if 'ICAO code' in airplane}
 
-        matching_iata = []
+        matching_codes = []
         for iata, airport in airport_iata_map.items():
             if iata in airplane_iata_map:
-                matching_iata.append({
-                    'iata': iata,
-                    'airport': self.convert_object_id_to_str(airport),
-                    'airplane': self.convert_object_id_to_str(airplane_iata_map[iata])
+                matching_codes.append({
+                    'code': iata,
+                    'type': 'iata',
+                    'airport': json.dumps(self.convert_object_id_to_str(airport)),
+                    'airplane': json.dumps(self.convert_object_id_to_str(airplane_iata_map[iata]))
                 })
 
-        matching_icao = []
         for icao, airport in airport_icao_map.items():
             if icao in airplane_icao_map:
-                matching_icao.append({
-                    'icao': icao,
-                    'airport': self.convert_object_id_to_str(airport),
-                    'airplane': self.convert_object_id_to_str(airplane_icao_map[icao])
+                matching_codes.append({
+                    'code': icao,
+                    'type': 'icao',
+                    'airport': json.dumps(self.convert_object_id_to_str(airport)),
+                    'airplane': json.dumps(self.convert_object_id_to_str(airplane_icao_map[icao]))
                 })
 
+        return JsonResponse(matching_codes, safe=False)
 
-        response = {
-            'matching_iata': matching_iata,
-            'matching_icao': matching_icao
-        }
+    def convert_object_id_to_str(self, obj):
+        # Assicurati che obj sia un dizionario JSON serializzabile
+        if isinstance(obj, dict):
+            return str(obj.get('_id', ''))
+        return str(obj)
 
-        return JsonResponse(response, safe=False)
