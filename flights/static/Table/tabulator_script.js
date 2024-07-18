@@ -12,7 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
             subCategory = 'getAll'; // Imposta il default su 'getAll'
         }
 
-        return `/${mainCategory}/${subCategory}`;
+        if (subCategory === 'getAirlineForCountry') {
+            var country = document.getElementById('value-input').value.trim(); // Assume che il campo input abbia l'id 'value-input' per il valore del paese
+            return `/${mainCategory}/${subCategory}/${country}`;
+        } else {
+            return `/${mainCategory}/${subCategory}`;
+        }
+
     }
 
     // Mappa per convertire i nomi delle funzioni in nomi visualizzati
@@ -51,7 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         subCategoryDropdown.classList.remove('active');
                         subCategoryOptions.style.display = 'none';
 
-                        table.setData(getSelectedURL());
+                        // Aggiungi qui il controllo per aprire la modale se la sotto-categoria è 'Get Airline for Country'
+                        if (item === 'getAirlineForCountry') {
+                            openValueModal(item); // Funzione da definire per aprire la modale di inserimento valore
+                        } else {
+                            table.setData(getSelectedURL());
+                        }
                     });
                 });
 
@@ -63,6 +74,45 @@ document.addEventListener('DOMContentLoaded', function () {
                 showErrorModal("Errore durante il caricamento dei sub-category: " + error);
             }
         });
+    }
+
+    // Funzione per aprire la modale di inserimento valore
+    function openValueModal(subCategory) {
+        var modal = document.getElementById("value-modal");
+        var modalContent = document.getElementById("value-modal-content");
+        var inputField = modalContent.querySelector("#value-input");
+
+        // Imposta il titolo della modale
+        var modalTitle = modalContent.querySelector(".modal-title");
+        modalTitle.textContent = "Inserimento del Country";
+
+        // Mostra la modale
+        modal.style.display = "block";
+
+        // Evento per chiudere la modale
+        var closeModal = modalContent.querySelector(".close");
+        closeModal.onclick = function () {
+            modal.style.display = "none";
+            inputField.classList.remove("invalid-input");
+        };
+
+        var saveButton = modalContent.querySelector("#save-value");
+        saveButton.onclick = function () {
+            var value = inputField.value.trim();
+
+            // Validazione dell'input
+            if (value === "") {
+                inputField.classList.add("invalid-input");
+                showErrorModal("Il campo non può essere vuoto.");
+                return;
+            }
+
+            inputField.classList.remove("invalid-input");
+            // Chiudi la modale dopo il salvataggio
+            modal.style.display = "none";
+            table.setData(getSelectedURL()); // Aggiorna la tabella
+        };
+
     }
 
     // Inizializzazione della tabella Tabulator
