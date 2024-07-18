@@ -280,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
             callback(true); // Conferma l'eliminazione
         };
 
+
         confirmNo.onclick = function () {
             confirmModal.style.display = "none";
             callback(false); // Annulla l'eliminazione
@@ -287,6 +288,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Funzione per aprire il popup di modifica/inserimento dati
+
+    function validateInput(input) {
+        var isValid = true;
+
+        // Controlla se l'input è di tipo testo o nascosto
+        if (input.type === 'text' || input.type === 'hidden') {
+            // Se il valore dell'input è vuoto, aggiungi la classe 'invalid-input' e imposta il flag di validazione a false
+            if (input.value.trim() === "") {
+                input.classList.add('invalid-input');
+                isValid = false;
+            } else {
+                // Se il valore dell'input non è vuoto, rimuovi la classe 'invalid-input'
+                input.classList.remove('invalid-input');
+            }
+        }
+
+        return isValid; // Ritorna il flag di validazione
+    }
+
+
     function openModal(data) {
         var mainCategory = document.getElementById('main-category').dataset.value;
         var form = document.getElementById("data-form");
@@ -324,19 +345,34 @@ document.addEventListener('DOMContentLoaded', function () {
         saveButton.onclick = function (event) {
             event.preventDefault();
 
-            var formData = {};
+            var isValid = true; // Flag per verificare la validità del form
+            var formData = new FormData(); // Utilizza un oggetto FormData per raccogliere i dati
+
             var formInputs = form.getElementsByTagName("input");
+
+            // Validazione di tutti gli input del form e aggiunta dei dati a formData
             for (var i = 0; i < formInputs.length; i++) {
-                if (formInputs[i].type === 'text' || formInputs[i].type === 'hidden') {
-                    formData[formInputs[i].name] = formInputs[i].value;
+                if (!validateInput(formInputs[i])) {
+                    isValid = false;
                 }
+                formData.append(formInputs[i].name, formInputs[i].value);
             }
 
+            // Se il form non è valido, non inviare i dati
+            if (!isValid) {
+                showErrorModal("Compila correttamente tutti i campi evidenziati.");
+                return;
+            }
+
+            // Se il form è valido, invia i dati con AJAX
             $.ajax({
                 url: url,
                 type: method,
-                data: formData,
+                data: formData, // Invia l'oggetto FormData
+                processData: false, // Evita che jQuery elabori i dati
+                contentType: false, // Imposta il tipo di contenuto su false
                 success: function (response) {
+                    console.log("Dati salvati con successo:", response);
                     modal.style.display = "none";
                     table.setData(getSelectedURL());
                 },
@@ -345,6 +381,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         };
+
 
         // Rimuovi eventuali altezze preimpostate
         var modalContent = document.querySelector('.modal-content');
@@ -372,4 +409,5 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = "none";
         }
     }
+
 });

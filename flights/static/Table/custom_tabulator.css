@@ -174,7 +174,7 @@
 .error-modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 10000;
     left: 0;
     top: 0;
     width: 100%;
@@ -299,6 +299,11 @@
 }
 .confirm-buttons button:hover#confirm-no {
     background-color: #c41003; /* Colore rosso per il pulsante 'No' */
+}
+
+#data-form input[type="text"].invalid-input {
+    border: 2px solid red; /* Aumentato a 2px per maggiore visibilità */
+    background-color: #ffdddd;
 }
 
 
