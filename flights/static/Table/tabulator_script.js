@@ -29,43 +29,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Funzione per aggiornare il dropdown delle subcategorie
     function updateSubCategoryDropdown(mainCategory) {
-        console.log("updateCategory")
         var subCategoryDropdown = document.getElementById('sub-category-dropdown');
         var subCategoryOptions = subCategoryDropdown.querySelector('.option');
         subCategoryOptions.innerHTML = '';
         $.ajax({
-        url: '/get_subcategories/',
-        method: 'GET',
-        data: { main_category: mainCategory },
-        success: function (data) {
-            data.forEach(function (item) {
-                var displayName = functionToDisplayName[item] || item;
-                var option = document.createElement('div');
-                option.setAttribute('data-value', item);
-                option.innerHTML = `<ion-icon name="stats-chart"></ion-icon> ${displayName}`;
-                subCategoryOptions.appendChild(option);
+            url: '/get_subcategories/',
+            method: 'GET',
+            data: { main_category: mainCategory },
+            success: function (data) {
+                data.forEach(function (item) {
+                    var displayName = functionToDisplayName[item] || item;
+                    var option = document.createElement('div');
+                    option.setAttribute('data-value', item);
+                    option.innerHTML = `<ion-icon name="stats-chart"></ion-icon> ${displayName}`;
+                    subCategoryOptions.appendChild(option);
 
-                option.addEventListener('click', function() {
-                    var input = subCategoryDropdown.querySelector('.textBox');
-                    input.value = this.textContent.trim();
-                    input.setAttribute('data-value', this.getAttribute('data-value'));
-                    subCategoryDropdown.classList.remove('active');
-                    subCategoryOptions.style.display = 'none';
+                    option.addEventListener('click', function() {
+                        var input = subCategoryDropdown.querySelector('.textBox');
+                        input.value = this.textContent.trim();
+                        input.setAttribute('data-value', this.getAttribute('data-value'));
+                        subCategoryDropdown.classList.remove('active');
+                        subCategoryOptions.style.display = 'none';
 
-                    table.setData(getSelectedURL());
+                        table.setData(getSelectedURL());
+                    });
                 });
-            });
 
-            var subCategoryInput = subCategoryDropdown.querySelector('.textBox');
+                var subCategoryInput = subCategoryDropdown.querySelector('.textBox');
                 subCategoryInput.value = 'GetAll';
                 subCategoryInput.setAttribute('data-value', 'getAll');
-                table.setData(getSelectedURL());
-        },
-        error: function (xhr, status, error) {
-            showErrorModal("Errore durante il caricamento dei sub-category: " + error);
-        }
-    });
-
+            },
+            error: function (xhr, status, error) {
+                showErrorModal("Errore durante il caricamento dei sub-category: " + error);
+            }
+        });
     }
 
     // Inizializzazione della tabella Tabulator
@@ -112,12 +109,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 dropdown.classList.remove('active');
                 options.style.display = 'none';
                 var mainCategory = document.getElementById('main-category').getAttribute('data-value');
-                updateSubCategoryDropdown(mainCategory)
-                // Aggiorna la tabella con i nuovi dati
-                table.setData(getSelectedURL());
+
+                // Prima di aggiornare le subcategorie, resetta il sub-category a 'GetAll'
+                var subCategoryInput = document.getElementById('sub-category');
+                subCategoryInput.setAttribute('data-value', 'getAll');
+                subCategoryInput.value = 'GetAll';
+
+                updateSubCategoryDropdown(mainCategory);
+
+                // Aggiorna la tabella solo dopo che il sub-category è stato aggiornato
+                setTimeout(function () {
+                    table.setData(getSelectedURL());
+                }, 100); // Imposta un piccolo ritardo per garantire l'aggiornamento del sub-category
             });
         });
     });
+
+    // Chiama updateSubCategoryDropdown all'inizializzazione della pagina
+    var mainCategory = document.getElementById('main-category').dataset.value || 'airlines';
+    updateSubCategoryDropdown(mainCategory);
 
     // Cambia URL dinamicamente quando cambia la selezione delle categorie
     document.querySelectorAll('.textBox').forEach(input => {
@@ -129,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     table.on("tableBuilt", function() {
         var footerDiv = document.querySelector('.tabulator-footer');
-        console.log(footerDiv);
 
         if (footerDiv) {
             // Creare un nuovo div per contenere i bottoni e la ricerca
@@ -153,6 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
             searchContainerDiv.appendChild(search);
             var cercaButton = document.getElementById('Cerca');
             searchContainerDiv.appendChild(cercaButton);
+
             // Crea un div per il paginator
             var paginatorContainerDiv = document.createElement('div');
             paginatorContainerDiv.className = 'paginator-container';
@@ -166,16 +176,12 @@ document.addEventListener('DOMContentLoaded', function () {
             footerDiv.appendChild(buttonContainerDiv);
             footerDiv.appendChild(searchContainerDiv);
             footerDiv.appendChild(paginatorContainerDiv);
-
-            console.log('Button added:', addButton);
         } else {
             console.error('Div with class "tabulator-footer" not found.');
         }
     });
 
-
     // Event listener per il campo di ricerca
-    // Aggiungi l'evento di input per il campo di ricerca
     $("#search").on("input", function () {
         var searchValue = $(this).val().toLowerCase();
         table.setFilter(customFilter);
@@ -194,27 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return false;
     }
-
-    // Cambia URL dinamicamente quando cambia la selezione delle categorie
-    $("#main-category, #sub-category").on("change", function () {
-        var selectedURL = getSelectedURL();
-        table.setData(selectedURL);
-    });
-
-    // Gestione del pulsante Aggiungi riga
-    $("#add-row").on("click", function () {
-        openModal(null); // Passa null per indicare un nuovo inserimento
-    });
-
-    // Gestione del pulsante Modifica riga
-    $("#edit-row").on("click", function () {
-        var selectedData = table.getSelectedData();
-        if (selectedData.length === 1) {
-            openModal(selectedData[0]); // Passa i dati della riga selezionata per la modifica
-        } else {
-            showErrorModal("Seleziona una sola riga da modificare");
-        }
-    });
 
     // Gestione del pulsante Elimina riga
     $("#delete-row").on("click", function () {
@@ -247,40 +232,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    var modal = document.getElementById("data-modal");
-    var span = document.getElementsByClassName("close")[0];
+    // Event listener per il pulsante Aggiungi riga
+    $("#add-row").on("click", function () {
+        openModal(null); // Passa null per indicare che è una nuova riga
+    });
 
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+    // Event listener per il pulsante Modifica riga
+    $("#edit-row").on("click", function () {
+        var selectedData = table.getSelectedData();
+        if (selectedData.length === 1) {
+            openModal(selectedData[0]); // Passa i dati della riga selezionata per la modifica
+        } else {
+            showErrorModal("Seleziona una riga per modificare");
         }
-    }
-
-    // Gestione del popup di conferma personalizzato
-    function showDeleteConfirmation(callback) {
-        var confirmModal = document.getElementById("confirm-modal");
-        var confirmYes = document.getElementById("confirm-yes");
-        var confirmNo = document.getElementById("confirm-no");
-        var confirmMessage = document.getElementById("confirm-message");
-
-        // Mostro il messaggio di conferma
-        confirmMessage.textContent = "Sei sicuro di voler eliminare gli elementi selezionati?";
-        confirmModal.style.display = "block";
-
-        confirmYes.onclick = function () {
-            confirmModal.style.display = "none";
-            callback(true); // Conferma l'eliminazione
-        };
-
-        confirmNo.onclick = function () {
-            confirmModal.style.display = "none";
-            callback(false); // Annulla l'eliminazione
-        };
-    }
+    });
 
     // Funzione per mostrare un popup di errore
     function showErrorModal(message) {
@@ -299,24 +264,29 @@ document.addEventListener('DOMContentLoaded', function () {
         errorModal.style.display = "none";
     };
 
-    // Gestione del popup di modifica/inserimento dati
-    var modal = document.getElementById("data-modal");
-    var modalClose = document.getElementById("modal-close");
+    // Funzione per mostrare un popup di conferma personalizzato
+    function showDeleteConfirmation(callback) {
+        var confirmModal = document.getElementById("confirm-modal");
+        var confirmYes = document.getElementById("confirm-yes");
+        var confirmNo = document.getElementById("confirm-no");
+        var confirmMessage = document.getElementById("confirm-message");
 
-    // Gestisce la chiusura del popup di modifica/inserimento
-    modalClose.onclick = function () {
-        modal.style.display = "none";
-    };
+        // Mostra il messaggio di conferma
+        confirmMessage.textContent = "Sei sicuro di voler eliminare gli elementi selezionati?";
+        confirmModal.style.display = "block";
 
-    // Gestione della chiusura del popup se si clicca al di fuori di esso
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        } else if (event.target == errorModal) {
-            errorModal.style.display = "none";
-        }
-    };
+        confirmYes.onclick = function () {
+            confirmModal.style.display = "none";
+            callback(true); // Conferma l'eliminazione
+        };
 
+        confirmNo.onclick = function () {
+            confirmModal.style.display = "none";
+            callback(false); // Annulla l'eliminazione
+        };
+    }
+
+    // Funzione per aprire il popup di modifica/inserimento dati
     function openModal(data) {
         var mainCategory = document.getElementById('main-category').dataset.value;
         var form = document.getElementById("data-form");
@@ -362,14 +332,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            console.log(formData)
-
             $.ajax({
                 url: url,
                 type: method,
                 data: formData,
                 success: function (response) {
-                    console.log("Dati salvati con successo:", response);
                     modal.style.display = "none";
                     table.setData(getSelectedURL());
                 },
@@ -393,9 +360,16 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContent.style.height = contentHeight + 'px';
     }
 
+    var modal = document.getElementById("data-modal");
+    var span = document.getElementsByClassName("close")[0];
 
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
 
-
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 });
-
-
